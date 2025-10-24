@@ -1,0 +1,53 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/static/css/register.css">
+</head>
+
+<body>
+    <div class="body">
+        <div class="left">
+            <div class="image-holder">
+                <img src="/static/imgs/moon-svgrepo-com.svg" alt="">
+            </div>
+            <p class="welcome">Welcome Back!</p>
+            <p class="details">Enter your details</p>
+            <!-- form section -->
+            <form class="login-form" method = 'POST'>
+                {% csrf_token %}
+                {{form.username.label}}
+                {{form.username}}
+
+                {{form.email.label}}
+                {{form.email}}
+                
+                {{form.password1.label}}
+                {{form.password1}}
+
+                {{form.password2.label}}
+                {{form.password2}}
+                {% comment %} <input type="text" placeholder="Username" name="username">
+                <input type="text" placeholder="Email" name="email">
+                <input type="password" placeholder="Password" name="password"> {% endcomment %}
+                
+                <button type="submit">Sign Up</button>
+            </form>
+
+            <div class="links-holder">
+                {{form.errors}}
+                <a href="/login">Login</a>
+                <!-- <a href="#">Lost Password?</a> -->
+
+            </div>
+            
+        </div>
+        <div class="right"></div>
+    </div>
+</body>
+
+</html>
