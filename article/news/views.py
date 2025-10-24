@@ -17,7 +17,7 @@ from .utils import extract_article_text
 def bookmark(request, id):
     
     book = Article.objects.get(id=id)
-    bookmarked, created = Bookmark.objects.get_or_create(article=book, user=request.user )
+    bookmarked, created = Bookmark.objects.get_or_create(article=book, user=request.user)
     if not created:
         # If it already exists, remove it (toggle)
         bookmark.delete()

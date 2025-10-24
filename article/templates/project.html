@@ -101,9 +101,12 @@
                                     {% comment %} <p>BY {{t.author}} {{t.pub_date}}</p> {% endcomment %}
                                         </a>
                                 </div>
-                                <div>
-                                    <img src="/static/imgs/bookmark-svgrepo-com.svg" alt="" class="bookmark2">
-                                </div>
+                               
+                                <a href="{% url 'view_bookmarks' %}">
+                                    <div>
+                                        <img src="/static/imgs/bookmark-svgrepo-com.svg" alt="" class="bookmark2">
+                                    </div>
+                                </a>
     
                             </div>
                         </div>
