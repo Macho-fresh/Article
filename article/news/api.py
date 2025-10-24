@@ -9,6 +9,8 @@ def getArticles():
     data = response.json()
 
     articles = []
+
+     
     category = 'technology'
     for article in data.get('results', []):
         articles.append({
