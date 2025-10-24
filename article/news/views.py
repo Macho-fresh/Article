@@ -15,20 +15,28 @@ from .utils import extract_article_text
 
 @login_required(login_url='login')
 def bookmark(request, id):
-    
-    book = Article.objects.get(id=id)
-    bookmarked, created = Bookmark.objects.get_or_create(article=book, user=request.user)
-    if not created:
-        # If it already exists, remove it (toggle)
-        bookmark.delete()
-        messages.info(request, f"Removed bookmark: {book.title}")
-    else:
-        messages.success(request, f"Bookmarked: {book.title}")
+    # Only allow POST requests (from the form)
+    if request.method == 'POST':
+        book = Article.objects.get(id=id)
+        bookmarked, created = Bookmark.objects.get_or_create(article=book, user=request.user)
+
+        if not created:
+            bookmarked.delete()
+            # messages.info(request, f"Removed bookmark: {book.title}")
+        # else:
+        #     messages.success(request, f"Bookmarked: {book.title}")
+
+    # Redirect back to home or article page after toggling
     return redirect('home')
+
+
+
 
 @login_required(login_url='login')
 def view_bookmarks(request):
-    bookmarks = Bookmark.objects.filter(user=request.user).select_related('article')
+    bookmarks = Bookmark.objects.filter(user=request.user)
+    
+
     return render(request, 'bookmark.html', {'bookmarks': bookmarks})
 
 

@@ -12,10 +12,10 @@
 <body>
     <div class="header">
         {% for t in article|slice:":1" %}
-        <div class="highlights-header" style="background-image: url('{{ t.image_url }}');
-        background-size: cover;
-        background-position: center;">
-
+            <div class="highlights-header" style="background-image: url('{{ t.image_url }}');
+            background-size: cover;
+            background-position: center;">
+        {% endfor %}
 
             <div class="nav-section">
                 <div class="nav-left">
@@ -76,7 +76,9 @@
                         <div class="fitness">
                             <img src="/static/imgs/dumbell-fitness-svgrepo-com (1).svg" alt="">
                             <p>Fitness</p>
-                        </div><div class="article-highlight">
+                        </div>
+{% comment %}                         
+                        <div class="article-highlight">
                             <div class="health">
                                 <img src="/static/imgs/health-svgrepo-com (1).svg" alt="">
                                 <p>Health</p>
@@ -96,20 +98,22 @@
                                 </div>
                                 <div class="author">
                                     
-                                    {% comment %} <a href="{% url 'author' t.id %}"> {% endcomment %}
+                                    <a href="{% url 'author' t.id %}">
                                         
-                                    {% comment %} <p>BY {{t.author}} {{t.pub_date}}</p> {% endcomment %}
-                                        </a>
+                                    <p>BY {{t.author}} {{t.pub_date}}</p>
+                                       
                                 </div>
                                
-                                <a href="{% url 'view_bookmarks' %}">
-                                    <div>
-                                        <img src="/static/imgs/bookmark-svgrepo-com.svg" alt="" class="bookmark2">
-                                    </div>
-                                </a>
+                                
     
                             </div>
-                        </div>
+                        </div> {% endcomment %}
+
+                        {% comment %} <a href="{% url 'view_bookmarks' %}">
+                            <div>
+                                <img src="/static/imgs/bookmark-svgrepo-com.svg" alt="" class="bookmark2">
+                            </div>
+                        </a> {% endcomment %}
     
     
                         <div class="article-highlight">
@@ -146,10 +150,12 @@
                 </div>
                 
                 <div class="nav-right">
-                    <div class="bookmark">
-                        <img src="/static/imgs/bookmark-svgrepo-com.svg" alt="">
-                        <div class="bookadd">0</div>
-                    </div>
+                    <a href="{% url 'view_bookmarks' %}">
+                        <div class="bookmark">
+                            <img src="/static/imgs/bookmark-svgrepo-com.svg" alt="">
+                            <div class="bookadd">0</div>
+                        </div>
+                    </a>
 
                     <input type="text" placeholder="Search..." class="search-bar">
                     <div class="search">
@@ -189,11 +195,11 @@
                         </div>
                         <form action="{% url 'bookmark' t.id %}" method="post">
                             {% csrf_token %}
-                        <div>
-                           
-                            <img src="/static/imgs/bookmark-svgrepo-com.svg" alt="" class="bookmark2">
-                        </div>
+                            <button type="submit" style="border:none; background:none;">
+                                <img src="/static/imgs/bookmark-svgrepo-com.svg" alt="Bookmark" class="bookmark2">
+                            </button>
                         </form>
+                        
 
                     </div>
                 </div>
@@ -265,7 +271,7 @@
             </div>
 
         </div>
-        {% endfor %}
+       
     </div>
 
     <div class="daily-insights">
@@ -321,9 +327,12 @@
                                     </a>
 
                             </div>
-                            <div>
-                                <img src="/static/imgs/bookmark-svgrepo-com.svg" alt="" class="bookmark2">
-                            </div>
+                            <form action="{% url 'bookmark' t.id %}" method="post">
+                                {% csrf_token %}
+                                <button type="submit" style="border:none; background:none;">
+                                    <img src="/static/imgs/bookmark-svgrepo-com.svg" alt="Bookmark" class="bookmark2">
+                                </button>
+                            </form>
                             <div class="details">
 
                             </div>
@@ -368,9 +377,12 @@
                                     </a>
 
                             </div>
-                            <div>
-                                <img src="/static/imgs/bookmark-svgrepo-com.svg" alt="" class="bookmark2">
-                            </div>
+                            <form action="{% url 'bookmark' t.id %}" method="post">
+                                {% csrf_token %}
+                                <button type="submit" style="border:none; background:none;">
+                                    <img src="/static/imgs/bookmark-svgrepo-com.svg" alt="Bookmark" class="bookmark2">
+                                </button>
+                            </form>
 
                         </div>
                     </div>
@@ -467,9 +479,12 @@
                                     </a>
 
                             </div>
-                            <div>
-                                <img src="/static/imgs/bookmark-svgrepo-com.svg" alt="" class="bookmark2">
-                            </div>
+                            <form action="{% url 'bookmark' t.id %}" method="post">
+                                {% csrf_token %}
+                                <button type="submit" style="border:none; background:none;">
+                                    <img src="/static/imgs/bookmark-svgrepo-com.svg" alt="Bookmark" class="bookmark2">
+                                </button>
+                            </form>
 
                         </div>
                     </div>
@@ -605,9 +620,12 @@
                                     </a>
 
                             </div>
-                            <div>
-                                <img src="/static/imgs/bookmark-svgrepo-com.svg" alt="" class="bookmark2">
-                            </div>
+                            <form action="{% url 'bookmark' t.id %}" method="post">
+                                {% csrf_token %}
+                                <button type="submit" style="border:none; background:none;">
+                                    <img src="/static/imgs/bookmark-svgrepo-com.svg" alt="Bookmark" class="bookmark2">
+                                </button>
+                            </form>
 
                         </div>
                     </div>
