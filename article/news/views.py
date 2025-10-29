@@ -12,6 +12,11 @@ import requests
 import random
 from .models import Article,Bookmark
 from .utils import extract_article_text
+# from googletrans import Translator
+# translator = Translator()
+
+# country = 'us'
+# language = 'en'
 
 @login_required(login_url='login')
 def bookmark(request, id):
@@ -22,13 +27,14 @@ def bookmark(request, id):
 
         if not created:
             bookmarked.delete()
+
+        
             # messages.info(request, f"Removed bookmark: {book.title}")
         # else:
         #     messages.success(request, f"Bookmarked: {book.title}")
 
     # Redirect back to home or article page after toggling
-    return redirect('home')
-
+    return redirect('view_bookmarks')
 
 
 
@@ -42,28 +48,88 @@ def view_bookmarks(request):
 
 @login_required(login_url='login')
 def fetch_new_articles(request):
-    getArticles()  # Run your scraper function
+    getArticles(request)  # Run your scraper function
     messages.success(request, "✅ New articles fetched successfully!")
     return redirect('home')  # Redirect to homepage after fetching
+
+from deep_translator import GoogleTranslator
+from deep_translator import GoogleTranslator
+
+def translate_large_text(text, target_lang):
+    # ✅ handle missing or empty text safely
+    if not text or not isinstance(text, str):
+        return ""
+
+    max_length = 5000
+    translated_chunks = []
+
+    # ✅ split text into safe chunks
+    for i in range(0, len(text), max_length):
+        chunk = text[i:i + max_length]
+        if chunk.strip():  # ignore blank chunks
+            try:
+                translated_chunk = GoogleTranslator(source='auto', target=target_lang).translate(chunk)
+                translated_chunks.append(translated_chunk)
+            except Exception as e:
+                print(f"Translation error on chunk: {e}")
+                translated_chunks.append(chunk)  # keep original chunk if translation fails
+
+    return " ".join(translated_chunks)
 
 
 @login_required(login_url='login')
 def home(request):
-    # article = getArticles()
+
+        # Handle language change if form is submitted
+    if request.method == 'POST':
+        selected_lang = request.POST.get('language')
+        print("Language selected:", selected_lang)
+        if selected_lang:
+            request.session['language'] = selected_lang
+
+
+    # Get selected language from session (default to English)
+    language = request.session.get('language')
+    if not language:
+        language = 'en'
+    # language = request.session.get('language') or 'en'
+
     articles = (
         Article.objects
-        .exclude(content__isnull=True)                 # remove empty content
-        .exclude(content__exact='')                    # remove blank content
-        .exclude(image_url__isnull=True)               # remove missing images
-        .exclude(image_url__exact='')                  # remove empty image URLs
-        .order_by('-id')                              # newest first
+        .exclude(content__isnull=True)
+        .exclude(content__exact='')
+        .exclude(image_url__isnull=True)
+        .exclude(image_url__exact='')
+        .order_by('-id')
     )
 
-    # Optional: filter out short content (less than 50 words)
+    bookmarks = Bookmark.objects.filter(user=request.user)
+    book = bookmarks.count()
     filtered_articles = [a for a in articles if len(a.content.split()) >= 50]
-    return render(request, 'project.html', {'article': filtered_articles}) 
+
+    # 🔹 Translate article content only if needed
+    if language != 'en':
+        for article in filtered_articles:
+            try:
+                if article.title:
+                    article.title = translate_large_text(article.title, language)
+
+                if article.content:
+                    article.content = translate_large_text(article.content, language)
+            except Exception as e:
+                print(f"Error translating article {article.id}: {e}")
 
 
+    return render(request, 'project.html', {'article': filtered_articles, 'book': book})
+
+
+# @login_required(login_url='login')
+# def changeLang(request):
+#         if request.method == 'POST':
+#             selected_lang = request.POST.get('name')
+#             request.session['language'] = selected_lang
+#             # getArticles(request)
+#         return redirect('home')
 
 @login_required(login_url='login')
 def blog(request, id):

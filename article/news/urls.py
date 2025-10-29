@@ -11,5 +11,7 @@ urlpatterns = [
     path('logout/', views.logoutUser, name='logout'),
     path('register/', views.register, name='register'),
     path('community/', views.community, name='community'),
-    path('fetch/', views.fetch_new_articles, name='fetch_new_articles'),  
+    path('fetch/', views.fetch_new_articles, name='fetch_new_articles'),
+    # path('change/', views.changeLang, name='changeLang'),  
+  
 ]

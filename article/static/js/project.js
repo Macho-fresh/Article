@@ -52,14 +52,14 @@ bookmarks.forEach(button => {
 
     if (isBookmarked) {
       button.src = "/static/imgs/bookmark-svgrepo-com (1).svg";  // change to filled
-      increase++;
+      // increase++;
     } else {
       button.src = "/static/imgs/bookmark-svgrepo-com.svg";  // back to empty
-      increase--;
+      // increase--;
     }
 
     // update the counter
-    bookadd.textContent = increase;
+    // bookadd.textContent = increase;
   });
 });
 
