@@ -10,6 +10,9 @@ class Article(models.Model):
     pub_date = models.CharField(max_length=100, null=True, blank=True)
     id = models.AutoField(primary_key=True)
 
+    translations = models.JSONField(default=dict, blank=True)  # stores {'fr': '...', 'es': '...'}
+
+
 
     def __str__(self):
         return self.title

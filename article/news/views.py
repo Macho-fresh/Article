@@ -19,6 +19,20 @@ from .utils import extract_article_text
 # language = 'en'
 
 @login_required(login_url='login')
+def clear_translations(request):
+    # Allow only admin users for safety
+    if not request.user.is_superuser:
+        messages.error(request, "❌ Only admins can clear translations.")
+        return redirect('home')
+
+    for article in Article.objects.all():
+        article.translations = {}
+        article.save()
+
+    messages.success(request, "✅ All translations cleared successfully!")
+    return redirect('home')
+
+@login_required(login_url='login')
 def bookmark(request, id):
     # Only allow POST requests (from the form)
     if request.method == 'POST':
@@ -53,46 +67,27 @@ def fetch_new_articles(request):
     return redirect('home')  # Redirect to homepage after fetching
 
 from deep_translator import GoogleTranslator
-from deep_translator import GoogleTranslator
 
 def translate_large_text(text, target_lang):
-    # ✅ handle missing or empty text safely
-    if not text or not isinstance(text, str):
-        return ""
-
     max_length = 5000
+    chunks = [text[i:i + max_length] for i in range(0, len(text), max_length)]
     translated_chunks = []
 
-    # ✅ split text into safe chunks
-    for i in range(0, len(text), max_length):
-        chunk = text[i:i + max_length]
-        if chunk.strip():  # ignore blank chunks
-            try:
-                translated_chunk = GoogleTranslator(source='auto', target=target_lang).translate(chunk)
-                translated_chunks.append(translated_chunk)
-            except Exception as e:
-                print(f"Translation error on chunk: {e}")
-                translated_chunks.append(chunk)  # keep original chunk if translation fails
+    for chunk in chunks:
+        translated_chunk = GoogleTranslator(source='auto', target=target_lang).translate(chunk)
+        translated_chunks.append(translated_chunk)
 
     return " ".join(translated_chunks)
 
-
 @login_required(login_url='login')
 def home(request):
-
-        # Handle language change if form is submitted
+    # Handle language form
     if request.method == 'POST':
         selected_lang = request.POST.get('language')
-        print("Language selected:", selected_lang)
         if selected_lang:
             request.session['language'] = selected_lang
 
-
-    # Get selected language from session (default to English)
-    language = request.session.get('language')
-    if not language:
-        language = 'en'
-    # language = request.session.get('language') or 'en'
+    language = request.session.get('language', 'en')
 
     articles = (
         Article.objects
@@ -107,20 +102,43 @@ def home(request):
     book = bookmarks.count()
     filtered_articles = [a for a in articles if len(a.content.split()) >= 50]
 
-    # 🔹 Translate article content only if needed
     if language != 'en':
         for article in filtered_articles:
-            try:
-                if article.title:
-                    article.title = translate_large_text(article.title, language)
+            # Make sure the article has a translations dict
+            if not hasattr(article, 'translations') or not isinstance(article.translations, dict):
+                article.translations = {}
 
-                if article.content:
-                    article.content = translate_large_text(article.content, language)
-            except Exception as e:
-                print(f"Error translating article {article.id}: {e}")
+            # Only translate if not already stored
+            if language not in article.translations:
+                print(f"Translating article {article.id} to {language}...")
+
+                translated_title = translate_large_text(article.title, language)
+                translated_content = translate_large_text(article.content[:1000], language)
+
+                # Save both translations
+                article.translations[language] = {
+                    'title': translated_title,
+                    'content': translated_content
+                }
+                article.save()
+            else:
+                print(f"Using cached translation for article {article.id}")
+
+            # Replace for display
+            # Handle old string-based translation format
+            translation_data = article.translations.get(language)
+
+            if isinstance(translation_data, str):
+                # Old format (string) — just use it for content
+                article.content = translation_data
+            else:
+                # New format (dict)
+                article.title = translation_data.get('title', article.title)
+                article.content = translation_data.get('content', article.content)
 
 
     return render(request, 'project.html', {'article': filtered_articles, 'book': book})
+
 
 
 # @login_required(login_url='login')
