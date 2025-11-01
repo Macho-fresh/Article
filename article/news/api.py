@@ -3,10 +3,10 @@ from .models import Article
 from .utils import extract_article_text
 from django.contrib.auth.models import User
 
-
+country = 'us'
 
 def getArticles(request):
-    country = 'us'
+    
     language = 'en'
     url = f'https://newsdata.io/api/1/news?apikey=pub_2caddf667d6f4605be59fee98689f132&country={country}&category=technology&language={language}'
     response = requests.get(url)

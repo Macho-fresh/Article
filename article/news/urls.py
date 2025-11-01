@@ -14,6 +14,8 @@ urlpatterns = [
     path('fetch/', views.fetch_new_articles, name='fetch_new_articles'),
     # path('change/', views.changeLang, name='changeLang'),  
     path('clear-translations/', views.clear_translations, name='clear_translations'),
+    path('change-country/', views.change_country, name='change_country'),
+
 
   
 ]

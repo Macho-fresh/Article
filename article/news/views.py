@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required
 import requests
 from django.contrib.auth.models import User
 from .api import getArticles
+from . import api
 # from newspaper import Article
 import requests
 import random
@@ -17,6 +18,15 @@ from .utils import extract_article_text
 
 # country = 'us'
 # language = 'en'
+
+@login_required(login_url='login')
+def change_country(request):
+    if request.method == 'POST':
+        country = request.POST.get('country')
+        api.country =  country
+        getArticles(request)
+        request.session['country'] = country
+    return redirect('home')
 
 @login_required(login_url='login')
 def clear_translations(request):
@@ -152,53 +162,41 @@ def home(request):
 @login_required(login_url='login')
 def blog(request, id):
     # articles = getArticles()
-    try:
-        article = Article.objects.get(id=id)
-    except Article.DoesNotExist:
-        article = None
+    language = request.session.get('language')
 
+    if language == 'en':
+        try:
+            article = Article.objects.get(id=id)
+        except Article.DoesNotExist:
+            article = None
     
-    # title = article['title']
-    # author = article['creator']
-    # image = article['image_url']
-    # pubDate = article['pubDate']
+    
+        # if language is not english 
+    else:
+        try:
+            article = Article.objects.get(id=id)
+        except Article.DoesNotExist:
+            article = None
 
-    # author_name, created = User.objects.get_or_create(username=author)
+       
 
-   
-    # random.shuffle(articles)
-    # url_main = articles[index]['link'] if index < len(articles) else None
+        if language not in article.translations:
+            translated_title = translate_large_text(article.title, language)
+            translated_content = translate_large_text(article.content, language)
 
-    # full_content = extract_article_text(url_main) if url_main else "No link available."
-    # if not Article.objects.filter(title=title).exists():
-    #     Article.objects.create(
-    #     title=title,
-    #     content=full_content,
-    #     author=author_name,
-    #     image_url = image,
-    #     pub_date = pubDate
-    # )
+            article.translations[language] = {
+                'title': translated_title,
+                'content': translated_content
+            }
+            article.save()
 
-    # if id < len(article):
-    #     articles = article[id]
-    # else:
-    #     articles = None
+        translation_data = article.translations.get(language)
+        if isinstance(translation_data, dict):
+            article.title = translation_data['title']
+            article.content = translation_data['content']
+            
     
 
-    # url = "https://article-extractor2.p.rapidapi.com/article/proxy/parse"
-
-    # querystring = {"url":url_main}
-
-    # headers = {
-    #     "x-rapidapi-key": "82aab3a533msh9c0c90306211689p170617jsn8c1c931367ef",
-    #     "x-rapidapi-host": "article-extractor2.p.rapidapi.com"
-    # }
-
-    # response = requests.get(url, headers=headers, params=querystring)
-
-  
-    # summary = response.json()
-    # content = summary['data']['content']
     return render(request, 'blog.html', {'article': article})  
 
 @login_required(login_url='login')

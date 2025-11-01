@@ -29,7 +29,15 @@
                     </div>
                     {% comment %} <div><a href="#">Language</a></div> {% endcomment %}
                     
+                        {% comment %} country change {% endcomment %}
+                        <form action="{% url 'change_country' %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit" name="country" value="us">🇺🇸</button>
+                            <button type="submit" name="country" value="ng">🇳🇬</button>
+                            <button type="submit" name="country" value="fr">🇫🇷</button>
+                        </form>
                         
+                        {% comment %} country change {% endcomment %}
                         <div class="dropdown">
                           <button class="dropbtn">lang</button>
                           <div class="dropdown-content">
