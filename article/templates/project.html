@@ -12,9 +12,15 @@
 <body>
     <div class="header">
         {% for t in article|slice:":1" %}
+        {% if t.image_url %}
             <div class="highlights-header" style="background-image: url('{{ t.image_url }}');
             background-size: cover;
             background-position: center;">
+            {% elif t.image_post %}
+            <div class="highlights-header" style="background-image: url('{{ t.image_post.url }}');
+            background-size: cover;
+            background-position: center;">
+        {% endif %}
         {% endfor %}
 
             <div class="nav-section">
@@ -381,9 +387,15 @@
         <div class="daily-articles">
             {% for t in article|slice:":1" %}
             <div class="daily-left">
+                {% if t.image_url %}
                 <div class="daily-bg" style="background-image: url('{{ t.image_url }}');
                 background-size: cover;
                 background-position: center;"></div>
+                {% elif t.image_post %}
+                <div class="daily-bg" style="background-image: url('{{ t.image_post.url }}');
+                background-size: cover;
+                background-position: center;"></div>
+                {% endif %}
                 <div class="daily-text">
                     {% comment %} <div>
                         <img src="/static/imgs/bookmark-svgrepo-com.svg" alt="" class="bookmark2">
@@ -674,10 +686,17 @@
             <div class="category-post">
                 {% for t in article|slice:"9:14" %}
                 <div class="cover">
+                    {% if t.image_url %}
                     <div class="category-img" style="background-image: url('{{ t.image_url }}');
                         background-size: cover;
                         background-position: center;">
                     </div>
+                    {% elif t.image_post %}
+                    <div class="category-img" style="background-image: url('{{ t.image_post.url }}');
+                    background-size: cover;
+                    background-position: center;">
+                </div>
+                    {% endif %}
 
                     <div class="article-highlight3">
                         <div class="health">
@@ -717,6 +736,9 @@
                     </div>
                 </div>
                 {% endfor %}
+
+                {% comment %} add posts {% endcomment %}
+                
 
                 <!-- other articles -->
                 {% comment %} <div class="cover">
@@ -1004,6 +1026,127 @@
             </div>
         </div>
     </div>
+    <button onclick="openPopup()" class="add-post-btn">+</button>
+
+  <!-- Popup modal -->
+  <div class="popup" id="popup">
+    <div class="popup-content">
+      <span onclick="closePopup()" class="close-btn">&times;</span>
+      <h2 style="text-align:center;">📝 New Post</h2>
+      <form method="POST" enctype="multipart/form-data" action="{% url 'home' %}">
+        {% csrf_token %}
+        <label>Title</label><br>
+        <input type="text" name="title" required><br><br>
+
+        <label>Image</label><br>
+        <input type="file" name="image"><br><br>
+
+        <label>Content</label><br>
+        <textarea name="content" rows="5" required></textarea><br><br>
+
+        <button type="submit">Post</button>
+      </form>
+    </div>
+  </div>
+
+                <style>
+                    /* === POPUP STYLES === */
+                    .popup {
+                      display: none;
+                      position: fixed;
+                      top: 0; left: 0;
+                      width: 100%; height: 100%;
+                      background: rgba(0, 0, 0, 0.6);
+                      justify-content: center;
+                      align-items: center;
+                      z-index: 1000;
+                    }
+                    .popup-content {
+                      background: #fff;
+                      padding: 25px;
+                      border-radius: 12px;
+                      width: 400px;
+                      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+                      animation: fadeIn 0.3s ease;
+                    }
+                
+                    @keyframes fadeIn {
+                      from { transform: scale(0.9); opacity: 0; }
+                      to { transform: scale(1); opacity: 1; }
+                    }
+                
+                    /* === STICKY BUTTON === */
+                    .add-post-btn {
+                      position: fixed;
+                      bottom: 30px;
+                      right: 30px;
+                      background: linear-gradient(135deg, #007bff, #00d4ff);
+                      color: white;
+                      border: none;
+                      border-radius: 50%;
+                      width: 65px;
+                      height: 65px;
+                      font-size: 28px;
+                      font-weight: bold;
+                      cursor: pointer;
+                      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+                      transition: all 0.3s ease;
+                      z-index: 1001;
+                    }
+                
+                    .add-post-btn:hover {
+                      transform: scale(1.1) rotate(5deg);
+                      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+                      background: linear-gradient(135deg, #00d4ff, #007bff);
+                    }
+                
+                    /* Close button */
+                    .close-btn {
+                      float: right;
+                      font-size: 22px;
+                      font-weight: bold;
+                      color: #666;
+                      cursor: pointer;
+                    }
+                    .close-btn:hover {
+                      color: red;
+                    }
+{% comment %}                 
+                    form label {
+                      font-weight: bold;
+                    }
+                
+                    form input, form textarea {
+                      width: 100%;
+                      padding: 8px;
+                      margin-top: 5px;
+                      border-radius: 6px;
+                      border: 1px solid #ccc;
+                    }
+                
+                    form button {
+                      background: #007bff;
+                      color: white;
+                      padding: 10px 15px;
+                      border: none;
+                      border-radius: 8px;
+                      cursor: pointer;
+                      margin-top: 10px;
+                      transition: background 0.3s;
+                    }
+                
+                    form button:hover {
+                      background: #0056b3;
+                    } {% endcomment %}
+                  </style>
+                  <script>
+                    function openPopup() {
+                      document.getElementById('popup').style.display = 'flex';
+                    }
+                    function closePopup() {
+                      document.getElementById('popup').style.display = 'none';
+                    }
+                  </script>
     <div class="ratings">
         <div class="daily-header">
 

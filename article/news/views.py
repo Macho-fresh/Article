@@ -91,8 +91,25 @@ def translate_large_text(text, target_lang):
 
 @login_required(login_url='login')
 def home(request):
+    # logged in user can create post
+    if request.method == 'POST' and 'title' in request.POST:
+        post_title = request.POST.get('title')
+        post_image = request.FILES.get('image')
+        post_content = request.POST.get('content')
+
+        Article.objects.create(
+            title = post_title,
+            content = post_content,
+            image_post = post_image
+        )
+
+        return redirect('home')
+        
+
+    
+
     # Handle language form
-    if request.method == 'POST':
+    if request.method == 'POST' and 'language' in request.POST:
         selected_lang = request.POST.get('language')
         if selected_lang:
             request.session['language'] = selected_lang
@@ -103,8 +120,9 @@ def home(request):
         Article.objects
         .exclude(content__isnull=True)
         .exclude(content__exact='')
-        .exclude(image_url__isnull=True)
-        .exclude(image_url__exact='')
+        # .exclude(image_url__isnull=True)
+        # .exclude(image_url__exact='')
+        # .exclude(image_post__isnull=True)
         .order_by('-id')
     )
 
@@ -162,7 +180,7 @@ def home(request):
 @login_required(login_url='login')
 def blog(request, id):
     # articles = getArticles()
-    language = request.session.get('language')
+    language = request.session.get('language', 'en')
 
     if language == 'en':
         try:

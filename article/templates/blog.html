@@ -10,9 +10,10 @@
 </head>
 
 <body>
+    {% if article.image_url %}
     <div class="header"  style="background-image: url('{{ article.image_url }}');
-    background-size: cover;
-    background-position: center;">
+        background-size: cover;
+        background-position: center;">
         <div class="header-cover">
             <div class="health">
                 <img src="/static/imgs/health-svgrepo-com (1).svg" alt="">
@@ -38,6 +39,36 @@
         </div>
 
     </div>
+    {% elif article.image_post %}
+    <div class="header"  style="background-image: url('{{ article.image_post.url }}');
+        background-size: cover;
+        background-position: center;">
+        <div class="header-cover">
+            <div class="health">
+                <img src="/static/imgs/health-svgrepo-com (1).svg" alt="">
+                <p>Health</p>
+            </div>
+            <p class="title">{{article.title}}</p>
+            <div class="views-holder">
+
+
+                <div class="profile">
+                    <!-- <img src="/static/imgs/Cromiixx.jpeg" alt=""> -->
+
+                </div>
+                <div class="author">
+                    <p>BY {{article.author}} {{article.pub_date}}</p>
+
+                </div>
+                <div class="bookmark2">
+                    <img src="/static/imgs/bookmark-svgrepo-com.svg" alt="">
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+    {% endif %}
     <div class="second-sec">
         <div class="second-sec-left">
             <p class="first-p">POST ACTIVITY</p>
@@ -111,10 +142,17 @@
                 <li>Prioritizing meaningful connections</li>
                 <li>Limiting non-essential digital tasks</li>
             </ul> {% endcomment %}
+            {% if article.image_url %}
             <div class="blog-img" style="background-image: url('{{ article.image_url }}');
             background-size: cover;
             background-position: center;">
             </div>
+            {% elif article.image_post %}
+            <div class="blog-img" style="background-image: url('{{ article.image_post.url }}');
+            background-size: cover;
+            background-position: center;">
+            </div>
+            {% endif %}
 
             {% comment %} <p class="main-text">Benefits of Digital Minimalism</p>
             <p class="text">Adopting a digital minimalism approach to your daily life offers numerous benefits that can

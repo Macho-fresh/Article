@@ -7,6 +7,7 @@ class Article(models.Model):
     content = models.TextField(null=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE,default=1)
     image_url = models.URLField(null=True, blank=True)
+    image_post = models.ImageField(upload_to='media/', blank=True, null=True)
     pub_date = models.CharField(max_length=100, null=True, blank=True)
     id = models.AutoField(primary_key=True)
 
