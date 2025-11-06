@@ -13,11 +13,32 @@ import requests
 import random
 from .models import Article,Bookmark
 from .utils import extract_article_text
+from  django.db.models import Q                                                  
 # from googletrans import Translator
 # translator = Translator()
 
 # country = 'us'
 # language = 'en'
+
+# @login_required(login_url='login')
+def search(request):  
+    try:
+        if request.method == 'GET':
+            search = request.GET.get('search')
+            search_result = Article.objects.filter(
+                Q(title__icontains=search) | Q(content__icontains=search)
+            )
+            if search_result:
+                
+                print(f"{search_result}")
+               
+            else:
+                print("not working")
+        else:
+            pass     
+    except: 
+        search_result='feedline'   
+    return render(request, 'search.html', {'search': search, 'search_result': search_result})
 
 @login_required(login_url='login')
 def change_country(request):
@@ -91,6 +112,9 @@ def translate_large_text(text, target_lang):
 
 @login_required(login_url='login')
 def home(request):
+    #search
+    
+     
     # logged in user can create post
     if request.method == 'POST' and 'title' in request.POST:
         post_title = request.POST.get('title')

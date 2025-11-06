@@ -126,11 +126,11 @@
                             <img src="/static/imgs/arrow-up-svgrepo-com.svg" alt="" class="click">
                         </div>
                     </div>
-                    <div><a href="/community">Communities</a>
+                    {% comment %} <div><a href="/community">Communities</a>
                         <div class="dropdown">
                             <img src="/static/imgs/arrow-up-svgrepo-com.svg" alt="">
                         </div>
-                    </div>
+                    </div> {% endcomment %}
 
                     <p>Hello, {{request.user}}</p>
                     <a href="logout/">Logout</a>
@@ -208,7 +208,7 @@
                         </a> {% endcomment %}
     
     
-                        <div class="article-highlight">
+                        {% comment %} <div class="article-highlight">
                             <div class="health">
                                 <img src="/static/imgs/health-svgrepo-com (1).svg" alt="">
                                 <p>Health</p>
@@ -230,13 +230,13 @@
                                     {% comment %} <a href="{% url 'author' t.id %}">
                                     <p>BY {{t.author}} {{t.pub_date}}</p>
                                         </a> {% endcomment %}
-                                </div>
+                                {% comment %} </div>
                                 <div>
                                     <img src="/static/imgs/bookmark-svgrepo-com.svg" alt="" class="bookmark2">
                                 </div>
     
                             </div>
-                        </div>
+                        </div> {% endcomment %} 
                     </div>
 
                 </div>
@@ -248,8 +248,11 @@
                             <div class="bookadd">{{book}}</div>
                         </div>
                     </a>
-
-                    <input type="text" placeholder="Search..." class="search-bar">
+                    {% comment %} search {% endcomment %}
+                    <form action="{% url "search" %}" method="get">
+                    <input type="text" placeholder="Search..." class="search-bar" name='search'>
+                    </form>
+                    
                     <div class="search">
                         <img src="/static/imgs/search-alt-svgrepo-com.svg" alt="" class="searchBtn">
                     </div>

@@ -1,0 +1,70 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FEEDLINE 📰</title>
+    <link rel="stylesheet" href="/static/css/search.css">
+</head>
+<body>
+    <p class='results'>Showing results for '{{search}}'</p>
+    <div class="trending-left">
+      
+
+        <div class="category-post">
+            {% for t in search_result %}
+            <div class="cover">
+                {% if t.image_url %}
+                <div class="category-img" style="background-image: url('{{ t.image_url }}');
+                    background-size: cover;
+                    background-position: center;">
+                </div>
+                {% elif t.image_post %}
+                <div class="category-img" style="background-image: url('{{ t.image_post.url }}');
+                background-size: cover;
+                background-position: center;">
+            </div>
+                {% endif %}
+
+                <div class="article-highlight3">
+                    {% comment %} <div class="health">
+                        <img src="/static/imgs/health-svgrepo-com (1).svg" alt="">
+                        <p>Health</p>
+                    </div> {% endcomment %}
+                    <a href="{% url 'blog' t.id %}" class="title">
+                        <p class="title">{{t.title}}</p>
+
+                    <a href="{% url 'blog' t.id %}" class="title-post">
+                        <p class="title-post">{{t.content|truncatechars:150}}</p>
+                    </a>
+                    <div class="views">
+                        <pre>2.12k views  1.27k likes</pre>
+                    </div>
+                    <div class="views-holder">
+
+
+                        <div class="profile">
+                            <!-- <img src="/logos/Cromiixx.jpeg" alt=""> -->
+
+                        </div>
+                        <div class="author">
+                             <a href="{% url 'author' t.id %}">
+                            <p>BY {{t.author}} {{t.pub_date}}</p>
+                                </a>
+
+                        </div>
+                        <form action="{% url 'bookmark' t.id %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit" style="border:none; background:none;">
+                                <img src="/static/imgs/bookmark-svgrepo-com.svg" alt="Bookmark" class="bookmark2">
+                            </button>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+</body>
+</html>
