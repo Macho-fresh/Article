@@ -56,15 +56,16 @@
                             </form>
                           </div>
                         </div>
-
+               
                         {% comment %} {% if user.is_superuser %}
-<form action="{% url 'clear_translations' %}" method="post">
-    {% csrf_token %}
-    <button type="submit" style="background:red;color:white;padding:5px 10px;border:none;border-radius:5px;">
-        🧹 Clear Translations Cache
-    </button>
-</form>
-{% endif %} {% endcomment %}
+                        
+                        <form action="{% url 'clear_translations' %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit" style="background:red;color:white;padding:5px 10px;border:none;border-radius:5px;">
+                                🧹 Clear Translations Cache
+                            </button>
+                        </form>
+                        {% endif %} {% endcomment %}
 
                         {% comment %} <p>Language selected: {{ language }}</p> {% endcomment %}
                         <style>
@@ -152,7 +153,7 @@
                         </div>
                     {% endif %} {% endcomment %}
 
-                    <div class="drop">
+                    {% comment %} <div class="drop">
                         <div class="health">
                             <img src="/static/imgs/health-svgrepo-com (1).svg" alt="">
                             <p>Health</p>
@@ -169,7 +170,7 @@
                             <img src="/static/imgs/dumbell-fitness-svgrepo-com (1).svg" alt="">
                             <p>Fitness</p>
                         </div>
-{% comment %}                         
+                            {% comment %}                         
                         <div class="article-highlight">
                             <div class="health">
                                 <img src="/static/imgs/health-svgrepo-com (1).svg" alt="">
@@ -237,7 +238,7 @@
     
                             </div>
                         </div> {% endcomment %} 
-                    </div>
+                    {% comment %} </div> {% endcomment %} 
 
                 </div>
                 
@@ -266,10 +267,10 @@
             <div class="highlights">
                 {% for t in article|slice:":3" %}
                 <div class="article-highlight">
-                    <div class="health">
+                    {% comment %} <div class="health">
                         <img src="/static/imgs/health-svgrepo-com (1).svg" alt="">
                         <p>Health</p>
-                    </div>
+                    </div> {% endcomment %}
                     <a href="{% url 'blog' t.id %}" class="title">
                     <p class="title">{{t.title}}</p>
                     </a>
@@ -283,11 +284,19 @@
                             <!-- <img src="/static/imgs/Cromiixx.jpeg" alt=""> -->
 
                         </div>
+                        {% if t.pub_date %}
                         <div class="author">
                             <a href="{% url 'author' t.id %}">
                             <p>BY {{t.author}} {{t.pub_date}}</p>
                             </a>
                         </div>
+                        {% elif t.date %}
+                        <div class="author">
+                            <a href="{% url 'author' t.id %}">
+                            <p>BY {{t.author}} {{t.date}}</p>
+                            </a>
+                        </div>
+                        {% endif %}
                         <form action="{% url 'bookmark' t.id %}" method="post">
                             {% csrf_token %}
                             <button type="submit" style="border:none; background:none;">
@@ -382,9 +391,9 @@
             </div>
 
 
-            <button class="arrow">View All
+            {% comment %} <button class="arrow">View All
                 <img src="/static/imgs/arrow-sm-right-svgrepo-com.svg" alt="">
-            </button>
+            </button> {% endcomment %}
         </div>
 
         <div class="daily-articles">
@@ -405,10 +414,10 @@
                     </div> {% endcomment %}
                     
                     <div class="article-highlight2">
-                        <div class="health">
+                        {% comment %} <div class="health">
                             <img src="/static/imgs/health-svgrepo-com (1).svg" alt="">
                             <p>Health</p>
-                        </div>
+                        </div> {% endcomment %}
                         <a href="{% url 'blog' t.id %}" class="title">
                             <p class="title2">{{t.title}}</p>
                         </a>
@@ -422,12 +431,19 @@
                                 <!-- <img src="/static/imgs/Cromiixx.jpeg" alt=""> -->
 
                             </div>
+                            {% if t.pub_date %}
                             <div class="author2">
                                 <a href="{% url 'author' t.id %}">
-                                    <p>BY {{t.author}} {{t.pub_date}}</p>
-                                    </a>
-
+                                <p>BY {{t.author}} {{t.pub_date}}</p>
+                                </a>
                             </div>
+                            {% elif t.date %}
+                            <div class="author2">
+                                <a href="{% url 'author' t.id %}">
+                                <p>BY {{t.author}} {{t.date}}</p>
+                                </a>
+                            </div>
+                            {% endif %}
                             <form action="{% url 'bookmark' t.id %}" method="post">
                                 {% csrf_token %}
                                 <button type="submit" style="border:none; background:none;">
@@ -455,10 +471,10 @@
                 <div class="right-left">
                     {% for t in article|slice:"3:6" %}
                     <div class="article-highlight">
-                        <div class="health">
+                        {% comment %} <div class="health">
                             <img src="/static/imgs/health-svgrepo-com (1).svg" alt="">
                             <p>Health</p>
-                        </div>
+                        </div> {% endcomment %}
                         <a href="{% url 'blog' t.id %}" class="title">
                             <p class="title-fix">{{t.title}}</p>
                         </a>
@@ -472,12 +488,19 @@
                                 <!-- <img src="/static/imgs/Cromiixx.jpeg" alt=""> -->
 
                             </div>
+                            {% if t.pub_date %}
                             <div class="author">
                                 <a href="{% url 'author' t.id %}">
                                 <p>BY {{t.author}} {{t.pub_date}}</p>
-                                    </a>
-
+                                </a>
                             </div>
+                            {% elif t.date %}
+                            <div class="author">
+                                <a href="{% url 'author' t.id %}">
+                                <p>BY {{t.author}} {{t.date}}</p>
+                                </a>
+                            </div>
+                            {% endif %}
                             <form action="{% url 'bookmark' t.id %}" method="post">
                                 {% csrf_token %}
                                 <button type="submit" style="border:none; background:none;">
@@ -558,10 +581,10 @@
 
                     {% for t in article|slice:"6:9" %}
                     <div class="article-highlight">
-                        <div class="health">
+                        {% comment %} <div class="health">
                             <img src="/static/imgs/health-svgrepo-com (1).svg" alt="">
                             <p>Health</p>
-                        </div>
+                        </div> {% endcomment %}
                         <a href="{% url 'blog' t.id %}" class="title">
                             <p class="title-fix">{{t.title}}</p>
                         <div class="views">
@@ -574,12 +597,19 @@
                                 <!-- <img src="/static/imgs/Cromiixx.jpeg" alt=""> -->
 
                             </div>
-                            <div class="author">
-                                <a href="{% url 'author' t.id %}">
-                                <p>BY {{t.author}} {{t.pub_date}}</p>
-                                    </a>
-
-                            </div>
+                            {% if t.pub_date %}
+                        <div class="author">
+                            <a href="{% url 'author' t.id %}">
+                            <p>BY {{t.author}} {{t.pub_date}}</p>
+                            </a>
+                        </div>
+                        {% elif t.date %}
+                        <div class="author">
+                            <a href="{% url 'author' t.id %}">
+                            <p>BY {{t.author}} {{t.date}}</p>
+                            </a>
+                        </div>
+                        {% endif %}
                             <form action="{% url 'bookmark' t.id %}" method="post">
                                 {% csrf_token %}
                                 <button type="submit" style="border:none; background:none;">
@@ -671,20 +701,20 @@
             </div>
 
 
-            <button class="arrow">View All
+            {% comment %} <button class="arrow">View All
                 <img src="/static/imgs/arrow-sm-right-svgrepo-com.svg" alt="">
-            </button>
+            </button> {% endcomment %}
         </div>
     </div>
 
     <div class="trending">
         <div class="trending-left">
-            <div class="category">
+            {% comment %} <div class="category">
                 Category
                 <div class="dropdown">
                     <img src="/static/imgs/arrow-up-svgrepo-com.svg" alt="">
                 </div>
-            </div>
+            </div> {% endcomment %}
 
             <div class="category-post">
                 {% for t in article|slice:"9:14" %}
@@ -702,10 +732,10 @@
                     {% endif %}
 
                     <div class="article-highlight3">
-                        <div class="health">
+                        {% comment %} <div class="health">
                             <img src="/static/imgs/health-svgrepo-com (1).svg" alt="">
                             <p>Health</p>
-                        </div>
+                        </div> {% endcomment %}
                         <a href="{% url 'blog' t.id %}" class="title">
                             <p class="title">{{t.title}}</p>
 
@@ -722,12 +752,19 @@
                                 <!-- <img src="/logos/Cromiixx.jpeg" alt=""> -->
 
                             </div>
+                            {% if t.pub_date %}
                             <div class="author">
-                                 <a href="{% url 'author' t.id %}">
+                                <a href="{% url 'author' t.id %}">
                                 <p>BY {{t.author}} {{t.pub_date}}</p>
-                                    </a>
-
+                                </a>
                             </div>
+                            {% elif t.date %}
+                            <div class="author">
+                                <a href="{% url 'author' t.id %}">
+                                <p>BY {{t.author}} {{t.date}}</p>
+                                </a>
+                            </div>
+                            {% endif %}
                             <form action="{% url 'bookmark' t.id %}" method="post">
                                 {% csrf_token %}
                                 <button type="submit" style="border:none; background:none;">
@@ -900,26 +937,27 @@
 
         <div class="trending-right">
             <p class="trend-text">Trending Posts</p>
-            <form class="search-box">
+            <form action="{% url "search" %}" method="get" class='search-box'>
                 <i class="fas fa-search"></i>
-                <input type="text" placeholder="Enter some key words...">
+                <input type="text" placeholder="Enter some key words..." name='search'>
                 <div class="search">
                     <img src="/static/imgs/search-alt-svgrepo-com.svg" alt="">
                 </div>
-            </form>
+            </form> 
 
             <div class="trending-posts">
                 {% for t in article|slice:"14:18" %}
+                {% if t.image_url %}
                 <div class="cover2" >
                     <div class="category-img2" style="background-image: url('{{ t.image_url }}');
                     background-size: cover;
                     background-position: center;"></div>
                     <div class="article-highlight4">
                         <div class="health-holder">
-                            <div class="health3">
+                            {% comment %} <div class="health3">
                                 <img src="/static/imgs/health-svgrepo-com.svg" alt="">
                                 <p>Health</p>
-                            </div>
+                            </div> {% endcomment %}
                             <div class="dash"></div>
                         </div>
                         <a href="{% url 'blog' t.id %}" class="title04">
@@ -928,16 +966,58 @@
                         <div class="views-holder">
 
 
-
+                            {% if t.pub_date %}
                             <div class="author">
                                 <p>{{t.pub_date}}</p>
 
                             </div>
+                            {% elif t.date %}
+                            <div class="author">
+                                <p>{{t.date}}</p>
+
+                            </div>
+                            {% endif %}
 
 
                         </div>
                     </div>
                 </div>
+                {% elif t.image_post %}
+                <div class="cover2" >
+                    <div class="category-img2" style="background-image: url('{{ t.image_post.url }}');
+                    background-size: cover;
+                    background-position: center;"></div>
+                    <div class="article-highlight4">
+                        <div class="health-holder">
+                            {% comment %} <div class="health3">
+                                <img src="/static/imgs/health-svgrepo-com.svg" alt="">
+                                <p>Health</p>
+                            </div> {% endcomment %}
+                            <div class="dash"></div>
+                        </div>
+                        <a href="{% url 'blog' t.id %}" class="title04">
+                            <p class="title04">{{t.title}}</p>     
+                        </a>
+                        <div class="views-holder">
+
+
+                            {% if t.pub_date %}
+                            <div class="author">
+                                <p>{{t.pub_date}}</p>
+
+                            </div>
+                            {% elif t.date %}
+                            <div class="author">
+                                <p>{{t.date}}</p>
+
+                            </div>
+                            {% endif %}
+
+
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
                 {% endfor %}
 
                 {% comment %} <div class="cover2">
@@ -1039,20 +1119,27 @@
       <form method="POST" enctype="multipart/form-data" action="{% url 'home' %}">
         {% csrf_token %}
         <label>Title</label><br>
-        <input type="text" name="title" required><br><br>
+        <input type="text" name="title" class='post-title' required><br><br>
 
         <label>Image</label><br>
-        <input type="file" name="image"><br><br>
+        <input type="file" name="image" class='post-image'><br><br>
 
         <label>Content</label><br>
-        <textarea name="content" rows="5" required></textarea><br><br>
-
-        <button type="submit">Post</button>
+        <textarea name="content" rows="5" class='post-content' required></textarea><br><br>
+        <div class='center-btn'>
+            <button type="submit" class='post-btn'>Post</button>
+        </div>
+        <p class='small-content'>Contents less that 50 words won't be pushed to FEEDLINE</p>
       </form>
     </div>
   </div>
 
                 <style>
+                    .small-content{
+                        font-size: 0.6rem;
+                        text-align: center;
+                        color: red;
+                    }
                     /* === POPUP STYLES === */
                     .popup {
                       display: none;
@@ -1071,6 +1158,7 @@
                       width: 400px;
                       box-shadow: 0 10px 25px rgba(0,0,0,0.2);
                       animation: fadeIn 0.3s ease;
+                      
                     }
                 
                     @keyframes fadeIn {
@@ -1114,6 +1202,100 @@
                     .close-btn:hover {
                       color: red;
                     }
+
+                    label {
+                        font-weight: 600;
+                        color: #333;
+                        margin-bottom: 4px;
+                        font-size: 0.95rem;
+                      }
+                      
+                      /* Title input */
+                      .post-title {
+                        width: 100%;
+                        border: 1.5px solid #ddd;
+                        border-radius: 10px;
+                        padding: 0.8rem;
+                        font-size: 0.95rem;
+                        transition: all 0.2s ease;
+                        background-color: #fafafa;
+                      }
+                      
+                      /* File input */
+                      .post-image {
+                        width: 100%;
+                        border: 1.5px solid #ddd;
+                        border-radius: 10px;
+                        padding: 0.5rem;
+                        background-color: #fafafa;
+                        cursor: pointer;
+                        transition: all 0.2s ease;
+                      }
+                      
+                      /* Textarea */
+                      .post-content {
+                        width: 100%;
+                        border: 1.5px solid #ddd;
+                        border-radius: 10px;
+                        padding: 0.8rem;
+                        font-size: 0.95rem;
+                        background-color: #fafafa;
+                        transition: all 0.2s ease;
+                        resize: vertical;
+                        min-height: 120px;
+                      }
+                      
+                      /* Focus effect for inputs and textarea */
+                      .post-title:focus,
+                      .post-image:focus,
+                      .post-content:focus {
+                        border-color: #007bff;
+                        outline: none;
+                        background-color: #fff;
+                        box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+                      }
+                      
+                      /* Button */
+                      .post-btn {
+                        background: linear-gradient(135deg, #007bff, #00c6ff);
+                        color: white;
+                        border: none;
+                        padding: 0.9rem;
+                        border-radius: 12px;
+                        font-size: 1rem;
+                        font-weight: 600;
+                        cursor: pointer;
+                        transition: all 0.25s ease;
+                        margin-top: 0.5rem;
+                      
+                      }
+
+                      button{
+                        border: none;
+                      }
+
+                      .center-btn{
+                        display: flex;
+                        alighn-items: center;
+                        justify-content: center;
+                      }
+                      
+                      .post-btn:hover {
+                        background: linear-gradient(135deg, #0063cc, #00a8e8);
+                        box-shadow: 0 6px 16px rgba(0, 123, 255, 0.25);
+                      }
+                      
+                      .post-btn:active {
+                        transform: scale(0.98);
+                      }
+                      
+                      /* Responsive */
+                      @media (max-width: 600px) {
+                        form {
+                          padding: 1.5rem;
+                          margin: 20px;
+                        }
+                      }
 {% comment %}                 
                     form label {
                       font-weight: bold;
@@ -1150,7 +1332,7 @@
                       document.getElementById('popup').style.display = 'none';
                     }
                   </script>
-    <div class="ratings">
+    {% comment %} <div class="ratings">
         <div class="daily-header">
 
             <div class="line-holder">
@@ -1327,7 +1509,7 @@
 
             </div>
         </div>
-    </div>
+    </div> {% endcomment %}
 <script src="/static/js/project.js"></script>
 </body>
 

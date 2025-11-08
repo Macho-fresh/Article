@@ -10,7 +10,7 @@ class Article(models.Model):
     image_post = models.ImageField(upload_to='media/', blank=True, null=True)
     pub_date = models.CharField(max_length=100, null=True, blank=True)
     id = models.AutoField(primary_key=True)
-
+    date = models.DateTimeField(auto_now_add=True)
     translations = models.JSONField(default=dict, blank=True)  # stores {'fr': '...', 'es': '...'}
 
 

@@ -14,11 +14,14 @@
     <div class="header"  style="background-image: url('{{ article.image_url }}');
         background-size: cover;
         background-position: center;">
+
+        {% comment %} <a href="{% url "home" %}" class='home'>Home</a> {% endcomment %}
+        
         <div class="header-cover">
-            <div class="health">
+            {% comment %} <div class="health">
                 <img src="/static/imgs/health-svgrepo-com (1).svg" alt="">
                 <p>Health</p>
-            </div>
+            </div> {% endcomment %}
             <p class="title">{{article.title}}</p>
             <div class="views-holder">
 
@@ -27,13 +30,22 @@
                     <!-- <img src="/static/imgs/Cromiixx.jpeg" alt=""> -->
 
                 </div>
-                <div class="author">
-                    <p>BY {{article.author}} {{article.pub_date}}</p>
-
-                </div>
-                <div class="bookmark2">
+                {% if article.pub_date %}
+                        <div class="author">
+                            <a href="{% url 'author' article.id %}">
+                            <p>BY {{article.author}} {{article.pub_date}}</p>
+                            </a>
+                        </div>
+                        {% elif t.date %}
+                        <div class="author">
+                            <a href="{% url 'author' article.id %}">
+                            <p>BY {{article.author}} {{article.date}}</p>
+                            </a>
+                        </div>
+                        {% endif %}
+                {% comment %} <div class="bookmark2">
                     <img src="/static/imgs/bookmark-svgrepo-com.svg" alt="">
-                </div>
+                </div> {% endcomment %}
 
             </div>
         </div>
@@ -44,10 +56,10 @@
         background-size: cover;
         background-position: center;">
         <div class="header-cover">
-            <div class="health">
+            {% comment %} <div class="health">
                 <img src="/static/imgs/health-svgrepo-com (1).svg" alt="">
                 <p>Health</p>
-            </div>
+            </div> {% endcomment %}
             <p class="title">{{article.title}}</p>
             <div class="views-holder">
 
@@ -56,13 +68,22 @@
                     <!-- <img src="/static/imgs/Cromiixx.jpeg" alt=""> -->
 
                 </div>
+                {% if article.pub_date %}
                 <div class="author">
+                    <a href="{% url 'author' article.id %}">
                     <p>BY {{article.author}} {{article.pub_date}}</p>
-
+                    </a>
                 </div>
-                <div class="bookmark2">
+                {% elif article.date %}
+                <div class="author">
+                    <a href="{% url 'author' article.id %}">
+                    <p>BY {{article.author}} {{article.date}}</p>
+                    </a>
+                </div>
+                {% endif %}
+                {% comment %} <div class="bookmark2">
                     <img src="/static/imgs/bookmark-svgrepo-com.svg" alt="">
-                </div>
+                </div> {% endcomment %}
 
             </div>
         </div>
@@ -170,16 +191,121 @@
         </div>
         <div class="second-sec-right">
             <div class="trending-right">
-                <p class="trend-text">Recent Posts</p>
-                <form class="search-box">
+                <p class="trend-text">Trending Posts</p>
+                <form action="{% url "search" %}" method="get" class='search-box'>
                     <i class="fas fa-search"></i>
-                    <input type="text" placeholder="Enter some key words...">
+                    <input type="text" placeholder="Enter some key words..." name='search'>
                     <div class="search">
                         <img src="/static/imgs/search-alt-svgrepo-com.svg" alt="">
                     </div>
-                </form>
+                </form> 
     
                 <div class="trending-posts">
+                    {% for t in articles|slice:"19:23" %}
+                    {% if t.image_url %}
+                    <div class="cover2" >
+                        <div class="category-img2" style="background-image: url('{{ t.image_url }}');
+                        background-size: cover;
+                        background-position: center;"></div>
+                        <div class="article-highlight4">
+                            <div class="health-holder">
+                                {% comment %} <div class="health3">
+                                    <img src="/static/imgs/health-svgrepo-com.svg" alt="">
+                                    <p>Health</p>
+                                </div> {% endcomment %}
+                                <div class="dash"></div>
+                            </div>
+                            <a href="{% url 'blog' t.id %}" class="title04">
+                                <p class="title04">{{t.title}}</p>     
+                            </a>
+                            <div class="views-holder">
+    
+    
+    
+                                {% if t.pub_date %}
+                                <div class="author">
+                                    <p>{{t.pub_date}}</p>
+    
+                                </div>
+                                {% elif t.date %}
+                                <div class="author">
+                                    <p>{{t.date}}</p>
+    
+                                </div>
+                                {% endif %}
+    
+    
+                            </div>
+                        </div>
+                    </div>
+                    {% elif t.image_post %}
+                    <div class="cover2" >
+                        <div class="category-img2" style="background-image: url('{{ t.image_post.url }}');
+                        background-size: cover;
+                        background-position: center;"></div>
+                        <div class="article-highlight4">
+                            <div class="health-holder">
+                                {% comment %} <div class="health3">
+                                    <img src="/static/imgs/health-svgrepo-com.svg" alt="">
+                                    <p>Health</p>
+                                </div> {% endcomment %}
+                                <div class="dash"></div>
+                            </div>
+                            <a href="{% url 'blog' t.id %}" class="title04">
+                                <p class="title04">{{t.title}}</p>     
+                            </a>
+                            <div class="views-holder">
+    
+    
+    
+                                {% if t.pub_date %}
+                            <div class="author">
+                                <p>{{t.pub_date}}</p>
+
+                            </div>
+                            {% elif t.date %}
+                            <div class="author">
+                                <p>{{t.date}}</p>
+
+                            </div>
+                            {% endif %}
+    
+    
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+    
+                    {% comment %} <div class="cover2">
+                        <div class="category-img2"></div>
+                        <div class="article-highlight4">
+                            <div class="health-holder">
+                                <div class="health3">
+                                    <img src="/static/imgs/health-svgrepo-com.svg" alt="">
+                                    <p>Health</p>
+                                </div>
+                                <div class="dash"></div>
+                            </div>
+    
+                            <a href="/blog" class="title04">
+                                <p class="title04">Mental Health: Strategies for Coping with Stress and Anxiety</p>     
+                            </a>
+    
+                            <div class="views-holder">
+    
+    
+    
+                                <div class="author">
+                                    <p>JULY 31, 2024</p>
+    
+                                </div>
+    
+    
+                            </div>
+                        </div>
+                    </div>
+    
                     <div class="cover2">
                         <div class="category-img2"></div>
                         <div class="article-highlight4">
@@ -191,7 +317,9 @@
                                 <div class="dash"></div>
                             </div>
     
-                            <p class="title04">Mental Health: Strategies for Coping with Stress and Anxiety</p>
+                            <a href="/blog" class="title04">
+                                <p class="title04">Mental Health: Strategies for Coping with Stress and Anxiety</p>     
+                            </a>
     
                             <div class="views-holder">
     
@@ -218,7 +346,9 @@
                                 <div class="dash"></div>
                             </div>
     
-                            <p class="title04">Mental Health: Strategies for Coping with Stress and Anxiety</p>
+                           <a href="/blog" class="title04">
+                                <p class="title04">Mental Health: Strategies for Coping with Stress and Anxiety</p>     
+                            </a>
     
                             <div class="views-holder">
     
@@ -232,61 +362,7 @@
     
                             </div>
                         </div>
-                    </div>
-    
-                    <div class="cover2">
-                        <div class="category-img2"></div>
-                        <div class="article-highlight4">
-                            <div class="health-holder">
-                                <div class="health3">
-                                    <img src="/static/imgs/health-svgrepo-com.svg" alt="">
-                                    <p>Health</p>
-                                </div>
-                                <div class="dash"></div>
-                            </div>
-    
-                            <p class="title04">Mental Health: Strategies for Coping with Stress and Anxiety</p>
-    
-                            <div class="views-holder">
-    
-    
-    
-                                <div class="author">
-                                    <p>JULY 31, 2024</p>
-    
-                                </div>
-    
-    
-                            </div>
-                        </div>
-                    </div>
-    
-                    <div class="cover2">
-                        <div class="category-img2"></div>
-                        <div class="article-highlight4">
-                            <div class="health-holder">
-                                <div class="health3">
-                                    <img src="/logos/health-svgrepo-com.svg" alt="">
-                                    <p>Health</p>
-                                </div>
-                                <div class="dash"></div>
-                            </div>
-    
-                            <p class="title04">Mental Health: Strategies for Coping with Stress and Anxiety</p>
-    
-                            <div class="views-holder">
-    
-    
-    
-                                <div class="author">
-                                    <p>JULY 31, 2024</p>
-    
-                                </div>
-    
-    
-                            </div>
-                        </div>
-                    </div>
+                    </div> {% endcomment %}
                 </div>
             </div>
         </div>

@@ -120,6 +120,7 @@ def home(request):
         post_title = request.POST.get('title')
         post_image = request.FILES.get('image')
         post_content = request.POST.get('content')
+        
 
         Article.objects.create(
             title = post_title,
@@ -204,6 +205,17 @@ def home(request):
 @login_required(login_url='login')
 def blog(request, id):
     # articles = getArticles()
+
+    articles = (
+    Article.objects
+    .exclude(content__isnull=True)
+    .exclude(content__exact='')
+    # .exclude(image_url__isnull=True)
+    # .exclude(image_url__exact='')
+    # .exclude(image_post__isnull=True)
+    .order_by('-id')
+    )
+    filtered_articles = [a for a in articles if len(a.content.split()) >= 50] 
     language = request.session.get('language', 'en')
 
     if language == 'en':
@@ -239,7 +251,7 @@ def blog(request, id):
             
     
 
-    return render(request, 'blog.html', {'article': article})  
+    return render(request, 'blog.html', {'article': article, 'articles': filtered_articles})  
 
 @login_required(login_url='login')
 def author(request, id):

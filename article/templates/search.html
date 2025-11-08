@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="/static/css/search.css">
 </head>
 <body>
+    <a href="{% url "home" %}">Go back</a>
     <p class='results'>Showing results for '{{search}}'</p>
     <div class="trending-left">
       
@@ -50,7 +51,12 @@
                         </div>
                         <div class="author">
                              <a href="{% url 'author' t.id %}">
+                            {% if t.pub_date %}    
                             <p>BY {{t.author}} {{t.pub_date}}</p>
+                            {% elif t.date %}
+                            <p>BY {{t.author}} {{t.date}}</p>
+
+                            {% endif %}
                                 </a>
 
                         </div>
