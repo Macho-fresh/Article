@@ -1,0 +1,241 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/static/css/author.css">
+</head>
+
+<body>
+    <div class="nav-section">
+        <a href="{% url "home" %}">Home</a>
+        <img src="logos/arrow-sm-right-svgrepo-com (1).svg" alt="">
+        <p>Archives for {{article.author}}</p>
+    </div>
+    <div class="views-holder">
+
+        <div class="profile-holder">
+            <div class="profile">
+                <!-- <img src="/static/imgs/Cromiixx.jpeg" alt=""> -->
+
+            </div>
+            <div class="author">
+                <p class="author-main">{{article.author}}</p>
+
+            </div>
+        </div>
+        <p class="author-about">
+            An acclaimed author known for weaving intricate stories with vivid detail and depth, bringing characters to
+            life in a truly immersive way.
+        </p>
+        <div class="socials">
+
+
+            <p class="skill">
+                Information Specialist
+            </p>
+
+            <div class="social-media">
+                <div class="facebook">
+                    <img src="/static/imgs/facebook-svgrepo-com.svg" alt="">
+                </div>
+                <div class="telegram">
+                    <img src="/static/imgs/telegram-svgrepo-com.svg" alt="">
+                </div>
+                <div class="twitter">
+                    <img src="/static/imgs/twitter-154-svgrepo-com.svg" alt="">
+                </div>
+                <div class="mail">
+                    <img src="/static/imgs/mail-alt-3-svgrepo-com.svg" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="category-post">
+        {% for post in posts %}
+        <div class="cover">
+            {% if post.image_url %}
+            <div class="category-img" style="background-image: url('{{ post.image_url }}');
+            background-size: cover;
+            background-position: center;"></div>
+            {% elif post.image_post %}
+            <div class="category-img" style="background-image: url('{{ post.image_post.url }}');
+            background-size: cover;
+            background-position: center;"></div>
+            {% endif %}
+            <div class="post-highlight3">
+               
+                <p class="title03">{{post.title}}</p>
+                <p class="title-post">{{post.content|truncatewords:50}}</p>
+                <a href="{% url 'blog' post.id %}" class="title">
+                    <p class="title2">read more</p>
+                </a>
+                <div class="views">
+                    <pre>2.12k views  1.27k likes</pre>
+                </div>
+                <div class="views-holder2">
+
+
+                    <div class="profile2">
+                        <!-- <img src="/static/imgs/Cromiixx.jpeg" alt=""> -->
+
+                    </div>
+                    {% if post.pub_date %}
+                    <div class="author2">
+                        <p>BY {{post.author}}, {{post.pub_date}}</p>
+
+                    </div>
+                    {% elif post.date %}
+                    <div class="author2">
+                        <p>BY {{post.author}}, {{post.date}}</p>
+
+                    </div>
+                    {% endif %}
+                    <div class="bookmark2">
+                        <img src="/static/imgs/bookmark-svgrepo-com.svg" alt="">
+                    </div>
+
+                </div>
+            </div>
+            
+        </div>
+        {% endfor %}
+        
+
+
+        <!-- other posts -->
+        {% comment %} <div class="cover">
+            <div class="category-img"></div>
+            <div class="article-highlight3">
+                <div class="health">
+                    <img src="/static/imgs/health-svgrepo-com (1).svg" alt="">
+                    <p>Health</p>
+                </div>
+                <p class="title03">Mental Health: Strategies for Coping with Stress and Anxiety</p>
+                <p class="title-post">Explore the significance of mental health in today’s fast-paced world and
+                    practical steps to maintain mental well-being.</p>
+                <div class="views">
+                    <pre>2.12k views  1.27k likes</pre>
+                </div>
+                <div class="views-holder2">
+
+
+                    <div class="profile2">
+                        <!-- <img src="/static/imgs/Cromiixx.jpeg" alt=""> -->
+
+                    </div>
+                    <div class="author2">
+                        <p>BY MACHO JULY 31, 2024</p>
+
+                    </div>
+                    <div class="bookmark2">
+                        <img src="/static/imgs/bookmark-svgrepo-com.svg" alt="">
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="cover">
+            <div class="category-img"></div>
+            <div class="article-highlight3">
+                <div class="health">
+                    <img src="/static/imgs/health-svgrepo-com (1).svg" alt="">
+                    <p>Health</p>
+                </div>
+                <p class="title03">Mental Health: Strategies for Coping with Stress and Anxiety</p>
+                <p class="title-post">Explore the significance of mental health in today’s fast-paced world and
+                    practical steps to maintain mental well-being.</p>
+                <div class="views">
+                    <pre>2.12k views  1.27k likes</pre>
+                </div>
+                <div class="views-holder2">
+
+
+                    <div class="profile2">
+                        <!-- <img src="/static/imgs/Cromiixx.jpeg" alt=""> -->
+
+                    </div>
+                    <div class="author2">
+                        <p>BY MACHO JULY 31, 2024</p>
+
+                    </div>
+                    <div class="bookmark2">
+                        <img src="/static/imgs/bookmark-svgrepo-com.svg" alt="">
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="cover">
+            <div class="category-img"></div>
+            <div class="article-highlight3">
+                <div class="health">
+                    <img src="/static/imgs/health-svgrepo-com (1).svg" alt="">
+                    <p>Health</p>
+                </div>
+                <p class="title03">Mental Health: Strategies for Coping with Stress and Anxiety</p>
+                <p class="title-post">Explore the significance of mental health in today’s fast-paced world and
+                    practical steps to maintain mental well-being.</p>
+                <div class="views">
+                    <pre>2.12k views  1.27k likes</pre>
+                </div>
+                <div class="views-holder2">
+
+
+                    <div class="profile2">
+                        <!-- <img src="/static/imgs/Cromiixx.jpeg" alt=""> -->
+
+                    </div>
+                    <div class="author2">
+                        <p>BY MACHO JULY 31, 2024</p>
+
+                    </div>
+                    <div class="bookmark2">
+                        <img src="/static/imgs/bookmark-svgrepo-com.svg" alt="">
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="cover">
+            <div class="category-img"></div>
+            <div class="article-highlight3">
+                <div class="health">
+                    <img src="/static/imgs/health-svgrepo-com (1).svg" alt="">
+                    <p>Health</p>
+                </div>
+                <p class="title03">Mental Health: Strategies for Coping with Stress and Anxiety</p>
+                <p class="title-post">Explore the significance of mental health in today’s fast-paced world and
+                    practical steps to maintain mental well-being.</p>
+                <div class="views">
+                    <pre>2.12k views  1.27k likes</pre>
+                </div>
+                <div class="views-holder2">
+
+
+                    <div class="profile2">
+                        <!-- <img src="/static/imgs/Cromiixx.jpeg" alt=""> -->
+
+                    </div>
+                    <div class="author2">
+                        <p>BY MACHO JULY 31, 2024</p>
+
+                    </div>
+                    <div class="bookmark2">
+                        <img src="/static/imgs/bookmark-svgrepo-com.svg" alt="">
+                    </div>
+
+                </div>
+            </div>
+        </div> {% endcomment %}
+    </div>
+    <script src="{%static 'js/author.js'%}"></script>
+</body>
+
+</html>

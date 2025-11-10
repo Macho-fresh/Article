@@ -1,0 +1,1516 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FEEDLINE 📰</title>
+    <link rel="stylesheet" href="/static/css/project.css">
+</head>
+
+<body>
+    <div class="header">
+        {% for t in article|slice:":1" %}
+        {% if t.image_url %}
+            <div class="highlights-header" style="background-image: url('{{ t.image_url }}');
+            background-size: cover;
+            background-position: center;">
+            {% elif t.image_post %}
+            <div class="highlights-header" style="background-image: url('{{ t.image_post.url }}');
+            background-size: cover;
+            background-position: center;">
+        {% endif %}
+        {% endfor %}
+
+            <div class="nav-section">
+                <div class="nav-left">
+                    <img src="/static/imgs/logo-fl-svgrepo-com (1).svg" alt="">
+                    {% comment %} <p>Fabula</p> {% endcomment %}
+                </div>
+                <div class="nav-middle">
+                    {% comment %} {% if request.user.is_authenticated %}
+                    <div style='display: none'><a href="/login">Join</a>
+                    {% endif %}
+                    </div> {% endcomment %}
+                    {% comment %} <div><a href="#">Language</a></div> {% endcomment %}
+                    
+                        {% comment %} country change {% endcomment %}
+                        <form action="{% url 'change_country' %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit" name="country" value="us" class='country'>🇺🇸</button>
+                            <button type="submit" name="country" value="ng" class='country'>🇳🇬</button>
+                            <button type="submit" name="country" value="fr" class='country'>🇫🇷</button>
+                        </form>
+                        
+                        {% comment %} country change {% endcomment %}
+                        <div class="dropdown">
+                          <button class="dropbtn">lang</button>
+                          <div class="dropdown-content">
+                            <form action="" method="post">
+                                {% csrf_token %}
+                            
+                                <button type="submit" name='language' value='en'>en</button>
+                                <button type="submit" name='language' value='es'>esp</button>
+                                <button type="submit" name='language' value='fr'>fr</button>
+                            </form>
+                          </div>
+                        </div>
+               
+                        {% comment %} {% if user.is_superuser %}
+                        
+                        <form action="{% url 'clear_translations' %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit" style="background:red;color:white;padding:5px 10px;border:none;border-radius:5px;">
+                                🧹 Clear Translations Cache
+                            </button>
+                        </form>
+                        {% endif %} {% endcomment %}
+
+                        {% comment %} <p>Language selected: {{ language }}</p> {% endcomment %}
+                        <style>
+                            .dropdown {
+                              position: relative;
+                            }
+                            
+                            /* Style the dropdown button */
+                            .dropbtn {
+                              {% comment %} background-color: #4CAF50; {% endcomment %}
+                              color: black;
+                              {% comment %} padding: 16px; {% endcomment %}
+                              font-size: 16px;
+                              border: none;
+                              cursor: pointer;
+                            }
+                            
+                            /* Dropdown content */
+                            .dropdown-content {
+                              display: none;
+                              position: absolute;
+                              background-color: #f9f9f9;
+                              top: 20px;
+                              {% comment %} min-width: 200px; {% endcomment %}
+                              box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+                            }
+
+                            .dropdown-content button{
+                                border: none;
+                                width: 30px;
+                            }
+                            
+                            /* Links inside dropdown content */
+                            .dropdown-content a {
+                              color: black;
+                              padding: 12px 16px;
+                              text-decoration: none;
+                              display: block;
+                            }
+                            
+                            /* Change color of dropdown links on hover */
+                            .dropdown-content button:hover {
+                              background-color:rgb(82, 78, 78)
+                            }
+                            
+                            /* Show the dropdown content on hover */
+                            .dropdown:hover .dropdown-content {
+                              display: block;
+                            }
+                            
+                            /* Change background color of dropdown button on hover */
+                            .dropdown:hover .dropbtn {
+                              background-color: #3e8e41;
+                            }
+                        </style>
+                    {% comment %} <div>
+                        <a href="#" class="cat">Categories</a>
+                        <div class="dropdown">
+                            <img src="/static/imgs/arrow-up-svgrepo-com.svg" alt="" class="click">
+                        </div>
+                    </div> {% endcomment %}
+                    {% comment %} <div><a href="/community">Communities</a>
+                        <div class="dropdown">
+                            <img src="/static/imgs/arrow-up-svgrepo-com.svg" alt="">
+                        </div>
+                    </div> {% endcomment %}
+
+                    <p>Hello, {{request.user}}</p>
+                    <a href="logout/">Logout</a>
+
+                    {% comment %} fetch new articles button {% endcomment %}
+                    <form action="{% url 'fetch_new_articles' %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="fetch-btn">
+                            🔄 Get New Posts
+                        </button>
+                    </form>
+
+                    {% comment %} show messages {% endcomment %}
+                    {% comment %} {% if messages %}
+                        <div class="messages">
+                            {% for message in messages %}
+                                <p class="alert">{{ message }}</p>
+                            {% endfor %}
+                        </div>
+                    {% endif %} {% endcomment %}
+
+                    {% comment %} <div class="drop">
+                        <div class="health">
+                            <img src="/static/imgs/health-svgrepo-com (1).svg" alt="">
+                            <p>Health</p>
+                        </div>
+                        <div class="tech">
+                            <img src="/static/imgs/technology-pc-computer-microchip-processor-chipset-svgrepo-com.svg" alt="">
+                            <p>Tech</p>
+                        </div>
+                        <div class="school">
+                            <img src="/static/imgs/school-svgrepo-com (1).svg" alt="">
+                            <p>School</p>
+                        </div>
+                        <div class="fitness">
+                            <img src="/static/imgs/dumbell-fitness-svgrepo-com (1).svg" alt="">
+                            <p>Fitness</p>
+                        </div>
+                            {% comment %}                         
+                        <div class="article-highlight">
+                            <div class="health">
+                                <img src="/static/imgs/health-svgrepo-com (1).svg" alt="">
+                                <p>Health</p>
+                            </div>
+                            <a href="/blog" class="title02">
+                                <p class="title02">Mental Health: Strategies for Coping with Stress and Anxiety</p>
+                                </a>
+                            <div class="views">
+                                <pre>2.12k views  1.27k likes</pre>
+                            </div>
+                            <div class="views-holder">
+    
+    
+                                <div class="profile">
+                                    <!-- <img src="/static/imgs/Cromiixx.jpeg" alt=""> -->
+    
+                                </div>
+                                <div class="author">
+                                    
+                                    <a href="{% url 'author' t.id %}">
+                                        
+                                    <p>BY {{t.author}} {{t.pub_date}}</p>
+                                       
+                                </div>
+                               
+                                
+    
+                            </div>
+                        </div> {% endcomment %}
+
+                        {% comment %} <a href="{% url 'view_bookmarks' %}">
+                            <div>
+                                <img src="/static/imgs/bookmark-svgrepo-com.svg" alt="" class="bookmark2">
+                            </div>
+                        </a> {% endcomment %}
+    
+    
+                        {% comment %} <div class="article-highlight">
+                            <div class="health">
+                                <img src="/static/imgs/health-svgrepo-com (1).svg" alt="">
+                                <p>Health</p>
+                            </div>
+                            <a href="/blog" class="title02">
+                                <p class="title02">Mental Health: Strategies for Coping with Stress and Anxiety</p>
+                                </a>
+                            <div class="views">
+                                <pre>2.12k views  1.27k likes</pre>
+                            </div>
+                            <div class="views-holder">
+    
+    
+                                <div class="profile">
+                                    <!-- <img src="/logos/Cromiixx.jpeg" alt=""> -->
+    
+                                </div>
+                                <div class="author">
+                                    {% comment %} <a href="{% url 'author' t.id %}">
+                                    <p>BY {{t.author}} {{t.pub_date}}</p>
+                                        </a> {% endcomment %}
+                                {% comment %} </div>
+                                <div>
+                                    <img src="/static/imgs/bookmark-svgrepo-com.svg" alt="" class="bookmark2">
+                                </div>
+    
+                            </div>
+                        </div> {% endcomment %} 
+                    {% comment %} </div> {% endcomment %} 
+
+                </div>
+                
+                <div class="nav-right">
+                    <a href="{% url 'view_bookmarks' %}">
+                        <div class="bookmark">
+                            <img src="/static/imgs/bookmark-svgrepo-com.svg" alt="">
+                            <div class="bookadd">{{book}}</div>
+                        </div>
+                    </a>
+                    {% comment %} search {% endcomment %}
+                    <form action="{% url "search" %}" method="get">
+                    <input type="text" placeholder="Search..." class="search-bar" name='search'>
+                    </form>
+                    
+                    <div class="search">
+                        <img src="/static/imgs/search-alt-svgrepo-com.svg" alt="" class="searchBtn">
+                    </div>
+                    <div class="vertical-bar"></div>
+                    <div class="light-mode">
+                        <img src="{% static "imgs/sun-svgrepo-com (3).svg" %}" alt="" class="sun" id='sun'>
+                    </div>
+                </div>
+            </div>
+
+            <div class="highlights">
+                {% for t in article|slice:":3" %}
+                <div class="article-highlight">
+                    {% comment %} <div class="health">
+                        <img src="/static/imgs/health-svgrepo-com (1).svg" alt="">
+                        <p>Health</p>
+                    </div> {% endcomment %}
+                    <a href="{% url 'blog' t.id %}" class="title">
+                    <p class="title">{{t.title}}</p>
+                    </a>
+                    <div class="views">
+                        <pre>2.12k views  1.27k likes</pre>
+                    </div>
+                    <div class="views-holder">
+
+
+                        <div class="profile">
+                            <!-- <img src="/static/imgs/Cromiixx.jpeg" alt=""> -->
+
+                        </div>
+                        {% if t.pub_date %}
+                        <div class="author">
+                            <a href="{% url 'author' t.id %}">
+                            <p>BY {{t.author}} {{t.pub_date}}</p>
+                            </a>
+                        </div>
+                        {% elif t.date %}
+                        <div class="author">
+                            <a href="{% url 'author' t.id %}">
+                            <p>BY {{t.author}} {{t.date}}</p>
+                            </a>
+                        </div>
+                        {% endif %}
+                        <form action="{% url 'bookmark' t.id %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit" style="border:none; background:none;">
+                                <img src="/static/imgs/bookmark-svgrepo-com.svg" alt="Bookmark" class="bookmark2">
+                            </button>
+                        </form>
+                        
+
+                    </div>
+                </div>
+                {% endfor %}
+                <!-- second article -->
+
+                {% comment %} <div class="article-highlight">
+                    <div class="health">
+                        <img src="/static/imgs/health-svgrepo-com (1).svg" alt="">
+                        <p>Health</p>
+                    </div>
+                    <a href="/blog" class="title">
+                        <p class="title">Mental Health: Strategies for Coping with Stress and Anxiety</p>
+                        </a>
+                    <div class="views">
+                        <pre>2.12k views  1.27k likes</pre>
+                    </div>
+                    <div class="views-holder">
+
+
+                        <div class="profile">
+                            <!-- <img src="/static/imgs/Cromiixx.jpeg" alt=""> -->
+
+                        </div>
+                        <div class="author">
+                            <a href="{% url 'author' t.id %}">
+                                <p>BY {{article.author}} {{article.pub_date}}</p>
+                                </a>
+
+                        </div>
+                        <div>
+                            <img src="/static/imgs/bookmark-svgrepo-com.svg" alt="" class="bookmark2">
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- third article -->
+                <div class="article-highlight">
+                    <div class="health">
+                        <img src="/static/imgs/health-svgrepo-com (1).svg" alt="">
+                        <p>Health</p>
+                    </div>
+                    <a href="/blog" class="title">
+                        <p class="title">Mental Health: Strategies for Coping with Stress and Anxiety</p>
+                        </a>
+                    <div class="views">
+                        <pre>2.12k views  1.27k likes</pre>
+                    </div>
+                    <div class="views-holder">
+                        {% endcomment %}
+
+                        {% comment %} <div class="profile">
+                            <!-- <img src="/static/imgs/Cromiixx.jpeg" alt=""> -->
+
+                        </div>
+                        <div class="author">
+                            <a href="{% url 'author' t.id %}">
+                                <p>BY {{article.author}} {{article.pub_date}}</p>
+                                </a>
+
+                        </div>
+                        <div>
+                            <img src="/static/imgs/bookmark-svgrepo-com.svg" alt="" class="bookmark2">
+                        </div> {% endcomment %}
+
+                    {% comment %} </div>
+                </div> {% endcomment %}
+            </div>
+
+        </div>
+       
+    </div>
+
+    <div class="daily-insights">
+        <div class="daily-header">
+
+            <div class="line-holder">
+                <p class="insight-header">Daily Insights</p>
+
+                <p>Exploring News, culture, and stories
+
+                </p>
+                <div class="line"></div>
+            </div>
+
+
+            {% comment %} <button class="arrow">View All
+                <img src="/static/imgs/arrow-sm-right-svgrepo-com.svg" alt="">
+            </button> {% endcomment %}
+        </div>
+
+        <div class="daily-articles">
+            {% for t in article|slice:":1" %}
+            <div class="daily-left">
+                {% if t.image_url %}
+                <div class="daily-bg" style="background-image: url('{{ t.image_url }}');
+                background-size: cover;
+                background-position: center;"></div>
+                {% elif t.image_post %}
+                <div class="daily-bg" style="background-image: url('{{ t.image_post.url }}');
+                background-size: cover;
+                background-position: center;"></div>
+                {% endif %}
+                <div class="daily-text">
+                    {% comment %} <div>
+                        <img src="/static/imgs/bookmark-svgrepo-com.svg" alt="" class="bookmark2">
+                    </div> {% endcomment %}
+                    
+                    <div class="article-highlight2">
+                        {% comment %} <div class="health">
+                            <img src="/static/imgs/health-svgrepo-com (1).svg" alt="">
+                            <p>Health</p>
+                        </div> {% endcomment %}
+                        <a href="{% url 'blog' t.id %}" class="title">
+                            <p class="title2">{{t.title}}</p>
+                        </a>
+                        <div class="views2">
+                            <pre>2.12k views  1.27k likes</pre>
+                        </div>
+                        <div class="views-holder">
+
+
+                            <div class="profile">
+                                <!-- <img src="/static/imgs/Cromiixx.jpeg" alt=""> -->
+
+                            </div>
+                            {% if t.pub_date %}
+                            <div class="author2">
+                                <a href="{% url 'author' t.id %}">
+                                <p>BY {{t.author}} {{t.pub_date}}</p>
+                                </a>
+                            </div>
+                            {% elif t.date %}
+                            <div class="author2">
+                                <a href="{% url 'author' t.id %}">
+                                <p>BY {{t.author}} {{t.date}}</p>
+                                </a>
+                            </div>
+                            {% endif %}
+                            <form action="{% url 'bookmark' t.id %}" method="post">
+                                {% csrf_token %}
+                                <button type="submit" style="border:none; background:none;">
+                                    <img src="/static/imgs/bookmark-svgrepo-com.svg" alt="Bookmark" class="bookmark2">
+                                </button>
+                            </form>
+                            <div class="details">
+
+                            </div>
+
+                        </div>
+                        
+                        <p class="details">{{t.content|truncatechars:150}}</p>
+                        <button class="arrow2">
+                            <a href="{% url 'blog' t.id %}"> Read More</a>
+                           
+                            <img src="/static/imgs/arrow-sm-right-svgrepo-com.svg" alt="">
+                        </button>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="daily-right">
+                <div class="right-left">
+                    {% for t in article|slice:"3:6" %}
+                    <div class="article-highlight">
+                        {% comment %} <div class="health">
+                            <img src="/static/imgs/health-svgrepo-com (1).svg" alt="">
+                            <p>Health</p>
+                        </div> {% endcomment %}
+                        <a href="{% url 'blog' t.id %}" class="title">
+                            <p class="title-fix">{{t.title}}</p>
+                        </a>
+                        <div class="views">
+                            <pre>2.12k views  1.27k likes</pre>
+                        </div>
+                        <div class="views-holder">
+
+
+                            <div class="profile">
+                                <!-- <img src="/static/imgs/Cromiixx.jpeg" alt=""> -->
+
+                            </div>
+                            {% if t.pub_date %}
+                            <div class="author">
+                                <a href="{% url 'author' t.id %}">
+                                <p>BY {{t.author}} {{t.pub_date}}</p>
+                                </a>
+                            </div>
+                            {% elif t.date %}
+                            <div class="author">
+                                <a href="{% url 'author' t.id %}">
+                                <p>BY {{t.author}} {{t.date}}</p>
+                                </a>
+                            </div>
+                            {% endif %}
+                            <form action="{% url 'bookmark' t.id %}" method="post">
+                                {% csrf_token %}
+                                <button type="submit" style="border:none; background:none;">
+                                    <img src="/static/imgs/bookmark-svgrepo-com.svg" alt="Bookmark" class="bookmark2">
+                                </button>
+                            </form>
+
+                        </div>
+                    </div>
+                    {% endfor %}
+
+                    {% comment %} <div class="article-highlight">
+                        <div class="health">
+                            <img src="/static/imgs/health-svgrepo-com (1).svg" alt="">
+                            <p>Health</p>
+                        </div>
+                        <a href="/blog" class="title02">
+                            <p class="title02">Mental Health: Strategies for Coping with Stress and Anxiety</p>
+                            </a>
+                        <div class="views">
+                            <pre>2.12k views  1.27k likes</pre>
+                        </div>
+                        <div class="views-holder">
+
+
+                            <div class="profile">
+                                <!-- <img src="/static/imgs/Cromiixx.jpeg" alt=""> -->
+
+                            </div>
+                            <div class="author">
+                                <a href="{% url 'author' t.id %}">
+                                <p>BY {{article.author}} {{article.pub_date}}</p>
+                                    </a>
+
+                            </div>
+                            <div>
+                                <img src="/static/imgs/bookmark-svgrepo-com.svg" alt="" class="bookmark2">
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                    <div class="article-highlight">
+                        <div class="health">
+                            <img src="/static/imgs/health-svgrepo-com (1).svg" alt="">
+                            <p>Health</p>
+                        </div>
+                        <a href="/blog" class="title02">
+                            <p class="title02">Mental Health: Strategies for Coping with Stress and Anxiety</p>
+                            </a>
+                        <div class="views">
+                            <pre>2.12k views  1.27k likes</pre>
+                        </div>
+                        <div class="views-holder">
+
+
+                            <div class="profile">
+                                <!-- <img src="/static/imgs/Cromiixx.jpeg" alt=""> -->
+
+                            </div>
+                            <div class="author">
+                                <a href="{% url 'author' t.id %}">
+                                <p>BY {{article.author}} {{article.pub_date}}</p>
+                                    </a>
+
+                            </div>
+                            <div>
+                                <img src="/static/imgs/bookmark-svgrepo-com.svg" alt="" class="bookmark2">
+                            </div>
+
+                        </div>
+                    </div> {% endcomment %}
+                </div>
+
+                <!-- second part -->
+                <div class="right-left">
+
+                    {% for t in article|slice:"6:9" %}
+                    <div class="article-highlight">
+                        {% comment %} <div class="health">
+                            <img src="/static/imgs/health-svgrepo-com (1).svg" alt="">
+                            <p>Health</p>
+                        </div> {% endcomment %}
+                        <a href="{% url 'blog' t.id %}" class="title">
+                            <p class="title-fix">{{t.title}}</p>
+                        <div class="views">
+                            <pre>2.12k views  1.27k likes</pre>
+                        </div>
+                        <div class="views-holder">
+
+
+                            <div class="profile">
+                                <!-- <img src="/static/imgs/Cromiixx.jpeg" alt=""> -->
+
+                            </div>
+                            {% if t.pub_date %}
+                        <div class="author">
+                            <a href="{% url 'author' t.id %}">
+                            <p>BY {{t.author}} {{t.pub_date}}</p>
+                            </a>
+                        </div>
+                        {% elif t.date %}
+                        <div class="author">
+                            <a href="{% url 'author' t.id %}">
+                            <p>BY {{t.author}} {{t.date}}</p>
+                            </a>
+                        </div>
+                        {% endif %}
+                            <form action="{% url 'bookmark' t.id %}" method="post">
+                                {% csrf_token %}
+                                <button type="submit" style="border:none; background:none;">
+                                    <img src="/static/imgs/bookmark-svgrepo-com.svg" alt="Bookmark" class="bookmark2">
+                                </button>
+                            </form>
+
+                        </div>
+                    </div>
+                    {% endfor %}
+
+
+                    {% comment %} <div class="article-highlight">
+                        <div class="health">
+                            <img src="/static/imgs/health-svgrepo-com (1).svg" alt="">
+                            <p>Health</p>
+                        </div>
+                        <a href="/blog" class="title02">
+                            <p class="title02">Mental Health: Strategies for Coping with Stress and Anxiety</p>
+                            </a>
+                        <div class="views">
+                            <pre>2.12k views  1.27k likes</pre>
+                        </div>
+                        <div class="views-holder">
+
+
+                            <div class="profile">
+                                <!-- <img src="/static/imgs/Cromiixx.jpeg" alt=""> -->
+
+                            </div>
+                            <div class="author">
+                                <a href="{% url 'author' t.id %}">
+                                <p>BY {{article.author}} {{article.pub_date}}</p>
+                                    </a>
+                            </div>
+                            <div>
+                                <img src="/static/imgs/bookmark-svgrepo-com.svg" alt="" class="bookmark2">
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                    <div class="article-highlight">
+                        <div class="health">
+                            <img src="/static/imgs/health-svgrepo-com (1).svg" alt="">
+                            <p>Health</p>
+                        </div>
+                        <a href="/blog" class="title02">
+                            <p class="title02">Mental Health: Strategies for Coping with Stress and Anxiety</p>
+                            </a>
+                        <div class="views">
+                            <pre>2.12k views  1.27k likes</pre>
+                        </div>
+                        <div class="views-holder">
+
+
+                            <div class="profile">
+                                <!-- <img src="/logos/Cromiixx.jpeg" alt=""> -->
+
+                            </div>
+                            <div class="author">
+                                <a href="{% url 'author' t.id %}">
+                                <p>BY {{article.author}} {{article.pub_date}}</p>
+                                    </a>
+                            </div>
+                            <div>
+                                <img src="/static/imgs/bookmark-svgrepo-com.svg" alt="" class="bookmark2">
+                            </div>
+
+                        </div>
+                    </div> {% endcomment %}
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="weekly-roundup">
+        <div class="daily-header">
+
+            <div class="line-holder">
+                <p class="insight-header">Recent Posts</p>
+
+                <p>Exploring News, culture, and stories
+
+                </p>
+                <div class="line"></div>
+            </div>
+
+
+            {% comment %} <button class="arrow">View All
+                <img src="/static/imgs/arrow-sm-right-svgrepo-com.svg" alt="">
+            </button> {% endcomment %}
+        </div>
+    </div>
+
+    <div class="trending">
+        <div class="trending-left">
+            {% comment %} <div class="category">
+                Category
+                <div class="dropdown">
+                    <img src="/static/imgs/arrow-up-svgrepo-com.svg" alt="">
+                </div>
+            </div> {% endcomment %}
+
+            <div class="category-post">
+                {% for t in article|slice:"9:14" %}
+                <div class="cover">
+                    {% if t.image_url %}
+                    <div class="category-img" style="background-image: url('{{ t.image_url }}');
+                        background-size: cover;
+                        background-position: center;">
+                    </div>
+                    {% elif t.image_post %}
+                    <div class="category-img" style="background-image: url('{{ t.image_post.url }}');
+                    background-size: cover;
+                    background-position: center;">
+                </div>
+                    {% endif %}
+
+                    <div class="article-highlight3">
+                        {% comment %} <div class="health">
+                            <img src="/static/imgs/health-svgrepo-com (1).svg" alt="">
+                            <p>Health</p>
+                        </div> {% endcomment %}
+                        <a href="{% url 'blog' t.id %}" class="title">
+                            <p class="title">{{t.title}}</p>
+
+                        <a href="{% url 'blog' t.id %}" class="title-post">
+                            <p class="title-post">{{t.content|truncatechars:150}}</p>
+                        </a>
+                        <div class="views">
+                            <pre>2.12k views  1.27k likes</pre>
+                        </div>
+                        <div class="views-holder">
+
+
+                            <div class="profile">
+                                <!-- <img src="/logos/Cromiixx.jpeg" alt=""> -->
+
+                            </div>
+                            {% if t.pub_date %}
+                            <div class="author">
+                                <a href="{% url 'author' t.id %}">
+                                <p>BY {{t.author}} {{t.pub_date}}</p>
+                                </a>
+                            </div>
+                            {% elif t.date %}
+                            <div class="author">
+                                <a href="{% url 'author' t.id %}">
+                                <p>BY {{t.author}} {{t.date}}</p>
+                                </a>
+                            </div>
+                            {% endif %}
+                            <form action="{% url 'bookmark' t.id %}" method="post">
+                                {% csrf_token %}
+                                <button type="submit" style="border:none; background:none;">
+                                    <img src="/static/imgs/bookmark-svgrepo-com.svg" alt="Bookmark" class="bookmark2">
+                                </button>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+
+                {% comment %} add posts {% endcomment %}
+                
+
+                <!-- other articles -->
+                {% comment %} <div class="cover">
+                    <div class="category-img"></div>
+                    <div class="article-highlight3">
+                        <div class="health">
+                            <img src="/static/imgs/health-svgrepo-com (1).svg" alt="">
+                            <p>Health</p>
+                        </div>
+                         <a href="/blog" class="title03">
+                            <p class="title03">Mental Health: Strategies for Coping with Stress and Anxiety</p>
+                        </a>
+                        <a href="/blog" class="title-post">
+                            <p class="title-post">Explore the significance of mental health in today’s fast-paced world and
+                            practical steps to maintain mental well-being.</p>
+                        </a>
+                        <div class="views">
+                            <pre>2.12k views  1.27k likes</pre>
+                        </div>
+                        <div class="views-holder">
+
+
+                            <div class="profile">
+                                <!-- <img src="/static/imgs/Cromiixx.jpeg" alt=""> -->
+
+                            </div>
+                            <div class="author">
+                                <a href="{% url 'author' t.id %}">
+                                <p>BY {{article.author}} {{article.pub_date}}</p>
+                                    </a>
+
+                            </div>
+                            <div>
+                                <img src="/static/imgs/bookmark-svgrepo-com.svg" alt="" class="bookmark2">
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="cover">
+                    <div class="category-img"></div>
+                    <div class="article-highlight3">
+                        <div class="health">
+                            <img src="/static/imgs/health-svgrepo-com (1).svg" alt="">
+                            <p>Health</p>
+                        </div>
+                         <a href="/blog" class="title03">
+                            <p class="title03">Mental Health: Strategies for Coping with Stress and Anxiety</p>
+                        </a>
+                        <a href="/blog" class="title-post">
+                            <p class="title-post">Explore the significance of mental health in today’s fast-paced world and
+                            practical steps to maintain mental well-being.</p>
+                        </a>
+                        <div class="views">
+                            <pre>2.12k views  1.27k likes</pre>
+                        </div>
+                        <div class="views-holder">
+
+
+                            <div class="profile">
+                                <!-- <img src="/logos/Cromiixx.jpeg" alt=""> -->
+
+                            </div>
+                            <div class="author">
+                                <a href="{% url 'author' t.id %}">
+                                <p>BY {{article.author}} {{article.pub_date}}</p>
+                                    </a>
+
+                            </div>
+                            <div>
+                                <img src="/static/imgs/bookmark-svgrepo-com.svg" alt="" class="bookmark2">
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="cover">
+                    <div class="category-img"></div>
+                    <div class="article-highlight3">
+                        <div class="health">
+                            <img src="/static/imgs/health-svgrepo-com (1).svg" alt="">
+                            <p>Health</p>
+                        </div>
+                        <a href="/blog" class="title03">
+                            <p class="title03">Mental Health: Strategies for Coping with Stress and Anxiety</p>
+                        </a>
+                        <a href="/blog" class="title-post">
+                            <p class="title-post">Explore the significance of mental health in today’s fast-paced world and
+                            practical steps to maintain mental well-being.</p>
+                        </a>
+                        <div class="views">
+                            <pre>2.12k views  1.27k likes</pre>
+                        </div>
+                        <div class="views-holder">
+
+
+                            <div class="profile">
+                                <!-- <img src="/static/imgs/Cromiixx.jpeg" alt=""> -->
+
+                            </div>
+                            <div class="author">
+                                <a href="{% url 'author' t.id %}">
+                                <p>BY {{article.author}} {{article.pub_date}}</p>
+                                    </a>
+
+                            </div>
+                            <div>
+                                <img src="/static/imgs/bookmark-svgrepo-com.svg" alt="" class="bookmark2">
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="cover">
+                    <div class="category-img"></div>
+                    <div class="article-highlight3">
+                        <div class="health">
+                            <img src="/static/imgs/health-svgrepo-com (1).svg" alt="">
+                            <p>Health</p>
+                        </div>
+                         <a href="/blog" class="title03">
+                            <p class="title03">Mental Health: Strategies for Coping with Stress and Anxiety</p>
+                        </a>
+                        <a href="/blog" class="title-post">
+                            <p class="title-post">Explore the significance of mental health in today’s fast-paced world and
+                            practical steps to maintain mental well-being.</p>
+                        </a>
+                        <div class="views">
+                            <pre>2.12k views  1.27k likes</pre>
+                        </div>
+                        <div class="views-holder">
+
+
+                            <div class="profile">
+                                <!-- <img src="/static/imgs/Cromiixx.jpeg" alt=""> -->
+
+                            </div>
+                            <div class="author">
+                                <a href="{% url 'author' t.id %}">
+                                <p>BY {{article.author}} {{article.pub_date}}</p>
+                                    </a>
+
+                            </div>
+                            <div>
+                                <img src="/static/imgs/bookmark-svgrepo-com.svg" alt="" class="bookmark2">
+                            </div>
+
+                        </div>
+                    </div>
+                </div> {% endcomment %}
+            </div>
+        </div>
+
+        <div class="trending-right">
+            <p class="trend-text">Trending Posts</p>
+            <form action="{% url "search" %}" method="get" class='search-box'>
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Enter some key words..." name='search'>
+                <div class="search">
+                    <img src="/static/imgs/search-alt-svgrepo-com.svg" alt="">
+                </div>
+            </form> 
+
+            <div class="trending-posts">
+                {% for t in article|slice:"14:18" %}
+                {% if t.image_url %}
+                <div class="cover2" >
+                    <div class="category-img2" style="background-image: url('{{ t.image_url }}');
+                    background-size: cover;
+                    background-position: center;"></div>
+                    <div class="article-highlight4">
+                        <div class="health-holder">
+                            {% comment %} <div class="health3">
+                                <img src="/static/imgs/health-svgrepo-com.svg" alt="">
+                                <p>Health</p>
+                            </div> {% endcomment %}
+                            <div class="dash"></div>
+                        </div>
+                        <a href="{% url 'blog' t.id %}" class="title04">
+                            <p class="title04">{{t.title}}</p>     
+                        </a>
+                        <div class="views-holder">
+
+
+                            {% if t.pub_date %}
+                            <div class="author">
+                                <p>{{t.pub_date}}</p>
+
+                            </div>
+                            {% elif t.date %}
+                            <div class="author">
+                                <p>{{t.date}}</p>
+
+                            </div>
+                            {% endif %}
+
+
+                        </div>
+                    </div>
+                </div>
+                {% elif t.image_post %}
+                <div class="cover2" >
+                    <div class="category-img2" style="background-image: url('{{ t.image_post.url }}');
+                    background-size: cover;
+                    background-position: center;"></div>
+                    <div class="article-highlight4">
+                        <div class="health-holder">
+                            {% comment %} <div class="health3">
+                                <img src="/static/imgs/health-svgrepo-com.svg" alt="">
+                                <p>Health</p>
+                            </div> {% endcomment %}
+                            <div class="dash"></div>
+                        </div>
+                        <a href="{% url 'blog' t.id %}" class="title04">
+                            <p class="title04">{{t.title}}</p>     
+                        </a>
+                        <div class="views-holder">
+
+
+                            {% if t.pub_date %}
+                            <div class="author">
+                                <p>{{t.pub_date}}</p>
+
+                            </div>
+                            {% elif t.date %}
+                            <div class="author">
+                                <p>{{t.date}}</p>
+
+                            </div>
+                            {% endif %}
+
+
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                {% endfor %}
+
+                {% comment %} <div class="cover2">
+                    <div class="category-img2"></div>
+                    <div class="article-highlight4">
+                        <div class="health-holder">
+                            <div class="health3">
+                                <img src="/static/imgs/health-svgrepo-com.svg" alt="">
+                                <p>Health</p>
+                            </div>
+                            <div class="dash"></div>
+                        </div>
+
+                        <a href="/blog" class="title04">
+                            <p class="title04">Mental Health: Strategies for Coping with Stress and Anxiety</p>     
+                        </a>
+
+                        <div class="views-holder">
+
+
+
+                            <div class="author">
+                                <p>JULY 31, 2024</p>
+
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="cover2">
+                    <div class="category-img2"></div>
+                    <div class="article-highlight4">
+                        <div class="health-holder">
+                            <div class="health3">
+                                <img src="/static/imgs/health-svgrepo-com.svg" alt="">
+                                <p>Health</p>
+                            </div>
+                            <div class="dash"></div>
+                        </div>
+
+                        <a href="/blog" class="title04">
+                            <p class="title04">Mental Health: Strategies for Coping with Stress and Anxiety</p>     
+                        </a>
+
+                        <div class="views-holder">
+
+
+
+                            <div class="author">
+                                <p>JULY 31, 2024</p>
+
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="cover2">
+                    <div class="category-img2"></div>
+                    <div class="article-highlight4">
+                        <div class="health-holder">
+                            <div class="health3">
+                                <img src="/static/imgs/health-svgrepo-com.svg" alt="">
+                                <p>Health</p>
+                            </div>
+                            <div class="dash"></div>
+                        </div>
+
+                       <a href="/blog" class="title04">
+                            <p class="title04">Mental Health: Strategies for Coping with Stress and Anxiety</p>     
+                        </a>
+
+                        <div class="views-holder">
+
+
+
+                            <div class="author">
+                                <p>JULY 31, 2024</p>
+
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div> {% endcomment %}
+            </div>
+        </div>
+    </div>
+    <button onclick="openPopup()" class="add-post-btn">+</button>
+
+  <!-- Popup modal -->
+  <div class="popup" id="popup">
+    <div class="popup-content">
+      <span onclick="closePopup()" class="close-btn">&times;</span>
+      <h2 style="text-align:center;">📝 New Post</h2>
+      <form method="POST" enctype="multipart/form-data" action="{% url 'home' %}">
+        {% csrf_token %}
+        <label>Title</label><br>
+        <input type="text" name="title" class='post-title' required><br><br>
+
+        <label>Image</label><br>
+        <input type="file" name="image" class='post-image'><br><br>
+
+        <label>Content</label><br>
+        <textarea name="content" rows="5" class='post-content' required></textarea><br><br>
+        <div class='center-btn'>
+            <button type="submit" class='post-btn'>Post</button>
+        </div>
+        <p class='small-content'>Contents less that 50 words won't be pushed to FEEDLINE</p>
+      </form>
+    </div>
+  </div>
+
+                <style>
+                    .small-content{
+                        font-size: 0.6rem;
+                        text-align: center;
+                        color: red;
+                    }
+                    /* === POPUP STYLES === */
+                    .popup {
+                      display: none;
+                      position: fixed;
+                      top: 0; left: 0;
+                      width: 100%; height: 100%;
+                      background: rgba(0, 0, 0, 0.6);
+                      justify-content: center;
+                      align-items: center;
+                      z-index: 1000;
+                    }
+                    .popup-content {
+                      background: #fff;
+                      padding: 25px;
+                      border-radius: 12px;
+                      width: 400px;
+                      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+                      animation: fadeIn 0.3s ease;
+                      
+                    }
+                
+                    @keyframes fadeIn {
+                      from { transform: scale(0.9); opacity: 0; }
+                      to { transform: scale(1); opacity: 1; }
+                    }
+                
+                    /* === STICKY BUTTON === */
+                    .add-post-btn {
+                      position: fixed;
+                      bottom: 30px;
+                      right: 30px;
+                      background: linear-gradient(135deg, #007bff, #00d4ff);
+                      color: white;
+                      border: none;
+                      border-radius: 50%;
+                      width: 65px;
+                      height: 65px;
+                      font-size: 28px;
+                      font-weight: bold;
+                      cursor: pointer;
+                      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+                      transition: all 0.3s ease;
+                      z-index: 1001;
+                    }
+                
+                    .add-post-btn:hover {
+                      transform: scale(1.1) rotate(5deg);
+                      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+                      background: linear-gradient(135deg, #00d4ff, #007bff);
+                    }
+                
+                    /* Close button */
+                    .close-btn {
+                      float: right;
+                      font-size: 22px;
+                      font-weight: bold;
+                      color: #666;
+                      cursor: pointer;
+                    }
+                    .close-btn:hover {
+                      color: red;
+                    }
+
+                    label {
+                        font-weight: 600;
+                        color: #333;
+                        margin-bottom: 4px;
+                        font-size: 0.95rem;
+                      }
+                      
+                      /* Title input */
+                      .post-title {
+                        width: 100%;
+                        border: 1.5px solid #ddd;
+                        border-radius: 10px;
+                        padding: 0.8rem;
+                        font-size: 0.95rem;
+                        transition: all 0.2s ease;
+                        background-color: #fafafa;
+                      }
+                      
+                      /* File input */
+                      .post-image {
+                        width: 100%;
+                        border: 1.5px solid #ddd;
+                        border-radius: 10px;
+                        padding: 0.5rem;
+                        background-color: #fafafa;
+                        cursor: pointer;
+                        transition: all 0.2s ease;
+                      }
+                      
+                      /* Textarea */
+                      .post-content {
+                        width: 100%;
+                        border: 1.5px solid #ddd;
+                        border-radius: 10px;
+                        padding: 0.8rem;
+                        font-size: 0.95rem;
+                        background-color: #fafafa;
+                        transition: all 0.2s ease;
+                        resize: vertical;
+                        min-height: 120px;
+                      }
+                      
+                      /* Focus effect for inputs and textarea */
+                      .post-title:focus,
+                      .post-image:focus,
+                      .post-content:focus {
+                        border-color: #007bff;
+                        outline: none;
+                        background-color: #fff;
+                        box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+                      }
+                      
+                      /* Button */
+                      .post-btn {
+                        background: linear-gradient(135deg, #007bff, #00c6ff);
+                        color: white;
+                        border: none;
+                        padding: 0.9rem;
+                        border-radius: 12px;
+                        font-size: 1rem;
+                        font-weight: 600;
+                        cursor: pointer;
+                        transition: all 0.25s ease;
+                        margin-top: 0.5rem;
+                      
+                      }
+
+                      button{
+                        border: none;
+                      }
+
+                      .center-btn{
+                        display: flex;
+                        alighn-items: center;
+                        justify-content: center;
+                      }
+                      
+                      .post-btn:hover {
+                        background: linear-gradient(135deg, #0063cc, #00a8e8);
+                        box-shadow: 0 6px 16px rgba(0, 123, 255, 0.25);
+                      }
+                      
+                      .post-btn:active {
+                        transform: scale(0.98);
+                      }
+                      
+                      /* Responsive */
+                      @media (max-width: 600px) {
+                        form {
+                          padding: 1.5rem;
+                          margin: 20px;
+                        }
+                      }
+{% comment %}                 
+                    form label {
+                      font-weight: bold;
+                    }
+                
+                    form input, form textarea {
+                      width: 100%;
+                      padding: 8px;
+                      margin-top: 5px;
+                      border-radius: 6px;
+                      border: 1px solid #ccc;
+                    }
+                
+                    form button {
+                      background: #007bff;
+                      color: white;
+                      padding: 10px 15px;
+                      border: none;
+                      border-radius: 8px;
+                      cursor: pointer;
+                      margin-top: 10px;
+                      transition: background 0.3s;
+                    }
+                
+                    form button:hover {
+                      background: #0056b3;
+                    } {% endcomment %}
+                  </style>
+                  <script>
+                    function openPopup() {
+                      document.getElementById('popup').style.display = 'flex';
+                    }
+                    function closePopup() {
+                      document.getElementById('popup').style.display = 'none';
+                    }
+                  </script>
+    {% comment %} <div class="ratings">
+        <div class="daily-header">
+
+            <div class="line-holder">
+                <p class="insight-header">Ratings</p>
+
+                <p>Exploring News, culture, and stories
+
+                </p>
+                <div class="line"></div>
+            </div>
+
+
+            <button class="arrow">View All
+                <img src="/static/imgs/arrow-sm-right-svgrepo-com.svg" alt="">
+            </button>
+        </div>
+
+        <div class="ratings-holder">
+            <div class="rating-left">
+                <div class="rating-img">
+                    <img src="/static/imgs/moon-svgrepo-com.svg" alt="">
+                </div>
+                <p class="rating-title">Comprehensive & detailed reviews</p>
+                <p>Get expert insights and honest opinions on the latest products and trends</p>
+                <button>Start Reading</button>
+            </div>
+            <div class="rating-middle">
+                <div class="middle-top">
+                    <div class="hold">
+                        <div class="profile">
+                            <!-- <img src="/static/imgs/Cromiixx.jpeg" alt=""> -->
+
+                        </div>
+                        <div>
+                            <p>Macho</p>
+                            <p class="description">Psychologist and therapist</p>
+                        </div>
+                    </div>
+
+                    <div class="score">
+                        <p>Excellent</p>
+
+                    </div>
+                </div>
+
+                <div class="middle-middle">
+                    <p class="mid-title">
+                        The futre of urban mobility: An indepth review of 2024 electric bikes
+                    </p>
+                    <div class="progress-holder">
+
+                        <div class="progress-bar">
+
+                        </div>
+                        <p class="rate">4.5</p>
+                        <p class="super">/5</p>
+                    </div>
+                </div>
+
+                <div class="pros-cons">
+                    <div class="pros">
+                        <p>Pros</p>
+                        <div class="good-holder">
+                            <div class="good">
+                                <img src="/static/imgs/checkmark-svgrepo-com.svg" alt="">
+                            </div>
+                            <p>Great range</p>
+                        </div>
+
+                        <div class="good-holder">
+                            <div class="good">
+                                <img src="/static/imgs/checkmark-svgrepo-com.svg" alt="">
+
+                            </div>
+                            <p>Powerful motor</p>
+                        </div>
+                    </div>
+                    <!-- cons -->
+
+                    <div class="pros">
+                        <p>Cons</p>
+                        <div class="good-holder">
+                            <div class="good">
+                                <img src="/static/imgs/wrong-delete-remove-trash-minus-cancel-close-2-svgrepo-com.svg" alt="">
+                            </div>
+                            <p>Great range</p>
+                        </div>
+
+                        <div class="good-holder">
+                            <div class="good">
+                                <img src="/static/imgs/wrong-delete-remove-trash-minus-cancel-close-2-svgrepo-com.svg" alt="">
+
+
+                            </div>
+                            <p>Powerful motor</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="rating-middle">
+                <div class="middle-top">
+                    <div class="hold">
+                        <div class="profile">
+                            <!-- <img src="/static/imgs/Cromiixx.jpeg" alt=""> -->
+
+                        </div>
+                        <div>
+                            <p>Macho</p>
+                            <p class="description">Psychologist and therapist</p>
+                        </div>
+                    </div>
+
+                    <div class="score">
+                        <p>Excellent</p>
+
+                    </div>
+                </div>
+
+                <div class="middle-middle">
+                    <p class="mid-title">
+                        The futre of urban mobility: An indepth review of 2024 electric bikes
+                    </p>
+                    <div class="progress-holder">
+
+                        <div class="progress-bar">
+
+                        </div>
+                        <p class="rate">4.5</p>
+                        <p class="super">/5</p>
+                    </div>
+                </div>
+
+                <div class="pros-cons">
+                    <div class="pros">
+                        <p>Pros</p>
+                        <div class="good-holder">
+                            <div class="good">
+                                <img src="/static/imgs/checkmark-svgrepo-com.svg" alt="">
+
+                            </div>
+                            <p>Great range</p>
+                        </div>
+
+                        <div class="good-holder">
+                            <div class="good">
+                                <img src="/static/imgs/checkmark-svgrepo-com.svg" alt="">
+                            </div>
+                            <p>Powerful motor</p>
+                        </div>
+                    </div>
+                    <!-- cons -->
+
+                    <div class="pros">
+                        <p>Cons</p>
+                        <div class="good-holder">
+                            <div class="good">
+                                <img src="/static/imgs/wrong-delete-remove-trash-minus-cancel-close-2-svgrepo-com.svg" alt="">
+
+                            </div>
+                            <p>Great range</p>
+                        </div>
+
+                        <div class="good-holder">
+                            <div class="good">
+                                <img src="/static/imgs/wrong-delete-remove-trash-minus-cancel-close-2-svgrepo-com.svg" alt="">
+
+
+                            </div>
+                            <p>Powerful motor</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div> {% endcomment %}
+<script src="{%static 'js/project.js'%}"></script>
+</body>
+
+</html>

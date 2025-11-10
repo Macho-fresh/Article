@@ -1,0 +1,374 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FEEDLINE 📰</title>
+    <link rel="stylesheet" href="/static/css/blog.css">
+</head>
+
+<body>
+    {% if article.image_url %}
+    <div class="header"  style="background-image: url('{{ article.image_url }}');
+        background-size: cover;
+        background-position: center;">
+
+        {% comment %} <a href="{% url "home" %}" class='home'>Home</a> {% endcomment %}
+        
+        <div class="header-cover">
+            {% comment %} <div class="health">
+                <img src="/static/imgs/health-svgrepo-com (1).svg" alt="">
+                <p>Health</p>
+            </div> {% endcomment %}
+            <p class="title">{{article.title}}</p>
+            <div class="views-holder">
+
+
+                <div class="profile">
+                    <!-- <img src="/static/imgs/Cromiixx.jpeg" alt=""> -->
+
+                </div>
+                {% if article.pub_date %}
+                        <div class="author">
+                            <a href="{% url 'author' article.id %}">
+                            <p class='blog_author'>BY {{article.author}} {{article.pub_date}}</p>
+                            </a>
+                        </div>
+                        {% elif t.date %}
+                        <div class="author">
+                            <a href="{% url 'author' article.id %}">
+                            <p class='blog_author'>BY {{article.author}} {{article.date}}</p>
+                            </a>
+                        </div>
+                        {% endif %}
+                {% comment %} <div class="bookmark2">
+                    <img src="/static/imgs/bookmark-svgrepo-com.svg" alt="">
+                </div> {% endcomment %}
+
+            </div>
+        </div>
+
+    </div>
+    {% elif article.image_post %}
+    <div class="header"  style="background-image: url('{{ article.image_post.url }}');
+        background-size: cover;
+        background-position: center;">
+        <div class="header-cover">
+            {% comment %} <div class="health">
+                <img src="/static/imgs/health-svgrepo-com (1).svg" alt="">
+                <p>Health</p>
+            </div> {% endcomment %}
+            <p class="title">{{article.title}}</p>
+            <div class="views-holder">
+
+
+                <div class="profile">
+                    <!-- <img src="/static/imgs/Cromiixx.jpeg" alt=""> -->
+
+                </div>
+                {% if article.pub_date %}
+                <div class="author">
+                    <a href="{% url 'author' article.id %}">
+                    <p>BY {{article.author}} {{article.pub_date}}</p>
+                    </a>
+                </div>
+                {% elif article.date %}
+                <div class="author">
+                    <a href="{% url 'author' article.id %}">
+                    <p>BY {{article.author}} {{article.date}}</p>
+                    </a>
+                </div>
+                {% endif %}
+                {% comment %} <div class="bookmark2">
+                    <img src="/static/imgs/bookmark-svgrepo-com.svg" alt="">
+                </div> {% endcomment %}
+
+            </div>
+        </div>
+
+    </div>
+    {% endif %}
+    <div class="second-sec">
+        <div class="second-sec-left">
+            <p class="first-p">POST ACTIVITY</p>
+            <div class="comment-holder">
+                <div class="rating">
+                    <p>5.0</p>
+                </div>
+                <div class="post-activity">
+                    <img src="/static/imgs/activity-svgrepo-com.svg" alt="">
+                    <P>7.5K</P>
+                </div>
+
+                <div class="likes">
+                    <img src="/static/imgs/heart-svgrepo-com.svg" alt="">
+                    <p>667</p>
+                </div>
+
+                <div class="comments">
+                    <img src="/static/imgs/comment-alt-lines-svgrepo-com.svg" alt="">
+                    <p>10</p>
+                </div>
+            </div>
+            <div class="table-of-contents">
+                <p class="second-p">TABLE OF CONTENT:</p>
+                <div class="number">
+                    <p>1. </p> <a href="#">What is Digital Minimalism?</a>
+                </div>
+                <div class="number">
+                    <p>2. </p> <a href="#">What is Digital Minimalism?</a>
+                </div>
+                <div class="number">
+                    <p>3. </p> <a href="#">What is Digital Minimalism?</a>
+                </div>
+                <div class="number">
+                    <p>4. </p> <a href="#">What is Digital Minimalism?</a>
+                </div>
+                <div class="number">
+                    <p>5. </p> <a href="#">What is Digital Minimalism?</a>
+                </div>
+                <div class="number">
+                    <p>6. </p> <a href="#">What is Digital Minimalism?</a>
+                </div>
+            </div>
+            <p class="third-p">SHARE THIS POST</p>
+            <div class="social-media">
+                <div class="facebook">
+                    <img src="/static/imgs/facebook-svgrepo-com.svg" alt="">
+                </div>
+                <div class="telegram">
+                    <img src="/static/imgs/telegram-svgrepo-com.svg" alt="">
+                </div>
+                <div class="twitter">
+                    <img src="/static/imgs/twitter-154-svgrepo-com.svg" alt="">
+                </div>
+                <div class="mail">
+                    <img src="/static/imgs/mail-alt-3-svgrepo-com.svg" alt="">
+                </div>
+            </div>
+        </div>
+        <div class="second-sec-middle">
+            <p class="text">{{article.content}}</p>
+            {% comment %} <p class="text"> {{ full_content}}</p> {% endcomment %}
+            {% comment %} <p class="main-text">What is Digital Minimalism?</p> {% endcomment %}
+            {% comment %} <p class="text">Digital minimalism is a lifestyle approach that emphasizes intentional and mindful use of
+                technology. It encourages reducing unnecessary digital distractions and focusing only on activities that
+                add value to our lives. Unlike extreme measures like completely disconnecting, digital minimalism is
+                about finding balance and using technology in a way that serves your goals.</p>
+            <p class="text">Key elements of digital minimalism include:</p>
+            <ul>
+                <li>Decluttering digital environments</li>
+                <li>Prioritizing meaningful connections</li>
+                <li>Limiting non-essential digital tasks</li>
+            </ul> {% endcomment %}
+            {% if article.image_url %}
+            <div class="blog-img" style="background-image: url('{{ article.image_url }}');
+            background-size: cover;
+            background-position: center;">
+            </div>
+            {% elif article.image_post %}
+            <div class="blog-img" style="background-image: url('{{ article.image_post.url }}');
+            background-size: cover;
+            background-position: center;">
+            </div>
+            {% endif %}
+
+            {% comment %} <p class="main-text">Benefits of Digital Minimalism</p>
+            <p class="text">Adopting a digital minimalism approach to your daily life offers numerous benefits that can
+                improve both your personal and professional well-being. In a world where we are constantly bombarded
+                with notifications, emails, and social media updates, this lifestyle shift can help create a sense of
+                control and clarity. Below are some of the key advantages of embracing a minimalistic approach to
+                technology use:</p>
+            <p class="text">1. Increased Focus and Productivity</p>
+            <p class="text">One of the most immediate benefits of digital minimalism is the boost it can give to your focus and productivity. By deliberately reducing distractions, such as unnecessary app notifications or constant email alerts, you create a more conducive environment for deep work.</p>
+            <p class="text">2. Increased Focus and Productivity</p>
+            <p class="text">One of the most immediate benefits of digital minimalism is the boost it can give to your focus and productivity. By deliberately reducing distractions, such as unnecessary app notifications or constant email alerts, you create a more conducive environment for deep work.</p>
+            <div class="blog-img"> {% endcomment %}
+
+            {% comment %} </div> {% endcomment %}
+        </div>
+        <div class="second-sec-right">
+            <div class="trending-right">
+                <p class="trend-text">Trending Posts</p>
+                <form action="{% url "search" %}" method="get" class='search-box'>
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Enter some key words..." name='search'>
+                    <div class="search">
+                        <img src="/static/imgs/search-alt-svgrepo-com.svg" alt="">
+                    </div>
+                </form> 
+    
+                <div class="trending-posts">
+                    {% for t in articles|slice:"19:23" %}
+                    {% if t.image_url %}
+                    <div class="cover2" >
+                        <div class="category-img2" style="background-image: url('{{ t.image_url }}');
+                        background-size: cover;
+                        background-position: center;"></div>
+                        <div class="article-highlight4">
+                            <div class="health-holder">
+                                {% comment %} <div class="health3">
+                                    <img src="/static/imgs/health-svgrepo-com.svg" alt="">
+                                    <p>Health</p>
+                                </div> {% endcomment %}
+                                <div class="dash"></div>
+                            </div>
+                            <a href="{% url 'blog' t.id %}" class="title04">
+                                <p class="title04">{{t.title}}</p>     
+                            </a>
+                            <div class="views-holder">
+    
+    
+    
+                                {% if t.pub_date %}
+                                <div class="author">
+                                    <p>{{t.pub_date}}</p>
+    
+                                </div>
+                                {% elif t.date %}
+                                <div class="author">
+                                    <p>{{t.date}}</p>
+    
+                                </div>
+                                {% endif %}
+    
+    
+                            </div>
+                        </div>
+                    </div>
+                    {% elif t.image_post %}
+                    <div class="cover2" >
+                        <div class="category-img2" style="background-image: url('{{ t.image_post.url }}');
+                        background-size: cover;
+                        background-position: center;"></div>
+                        <div class="article-highlight4">
+                            <div class="health-holder">
+                                {% comment %} <div class="health3">
+                                    <img src="/static/imgs/health-svgrepo-com.svg" alt="">
+                                    <p>Health</p>
+                                </div> {% endcomment %}
+                                <div class="dash"></div>
+                            </div>
+                            <a href="{% url 'blog' t.id %}" class="title04">
+                                <p class="title04">{{t.title}}</p>     
+                            </a>
+                            <div class="views-holder">
+    
+    
+    
+                                {% if t.pub_date %}
+                            <div class="author">
+                                <p>{{t.pub_date}}</p>
+
+                            </div>
+                            {% elif t.date %}
+                            <div class="author">
+                                <p>{{t.date}}</p>
+
+                            </div>
+                            {% endif %}
+    
+    
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+    
+                    {% comment %} <div class="cover2">
+                        <div class="category-img2"></div>
+                        <div class="article-highlight4">
+                            <div class="health-holder">
+                                <div class="health3">
+                                    <img src="/static/imgs/health-svgrepo-com.svg" alt="">
+                                    <p>Health</p>
+                                </div>
+                                <div class="dash"></div>
+                            </div>
+    
+                            <a href="/blog" class="title04">
+                                <p class="title04">Mental Health: Strategies for Coping with Stress and Anxiety</p>     
+                            </a>
+    
+                            <div class="views-holder">
+    
+    
+    
+                                <div class="author">
+                                    <p>JULY 31, 2024</p>
+    
+                                </div>
+    
+    
+                            </div>
+                        </div>
+                    </div>
+    
+                    <div class="cover2">
+                        <div class="category-img2"></div>
+                        <div class="article-highlight4">
+                            <div class="health-holder">
+                                <div class="health3">
+                                    <img src="/static/imgs/health-svgrepo-com.svg" alt="">
+                                    <p>Health</p>
+                                </div>
+                                <div class="dash"></div>
+                            </div>
+    
+                            <a href="/blog" class="title04">
+                                <p class="title04">Mental Health: Strategies for Coping with Stress and Anxiety</p>     
+                            </a>
+    
+                            <div class="views-holder">
+    
+    
+    
+                                <div class="author">
+                                    <p>JULY 31, 2024</p>
+    
+                                </div>
+    
+    
+                            </div>
+                        </div>
+                    </div>
+    
+                    <div class="cover2">
+                        <div class="category-img2"></div>
+                        <div class="article-highlight4">
+                            <div class="health-holder">
+                                <div class="health3">
+                                    <img src="/static/imgs/health-svgrepo-com.svg" alt="">
+                                    <p>Health</p>
+                                </div>
+                                <div class="dash"></div>
+                            </div>
+    
+                           <a href="/blog" class="title04">
+                                <p class="title04">Mental Health: Strategies for Coping with Stress and Anxiety</p>     
+                            </a>
+    
+                            <div class="views-holder">
+    
+    
+    
+                                <div class="author">
+                                    <p>JULY 31, 2024</p>
+    
+                                </div>
+    
+    
+                            </div>
+                        </div>
+                    </div> {% endcomment %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="{%static 'js/blog.js'%}"></script>
+
+</body>
+
+</html>
