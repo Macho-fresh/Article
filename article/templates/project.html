@@ -29,18 +29,18 @@
                     {% comment %} <p>Fabula</p> {% endcomment %}
                 </div>
                 <div class="nav-middle">
-                    {% if request.user.is_authenticated %}
+                    {% comment %} {% if request.user.is_authenticated %}
                     <div style='display: none'><a href="/login">Join</a>
                     {% endif %}
-                    </div>
+                    </div> {% endcomment %}
                     {% comment %} <div><a href="#">Language</a></div> {% endcomment %}
                     
                         {% comment %} country change {% endcomment %}
                         <form action="{% url 'change_country' %}" method="post">
                             {% csrf_token %}
-                            <button type="submit" name="country" value="us">🇺🇸</button>
-                            <button type="submit" name="country" value="ng">🇳🇬</button>
-                            <button type="submit" name="country" value="fr">🇫🇷</button>
+                            <button type="submit" name="country" value="us" class='country'>🇺🇸</button>
+                            <button type="submit" name="country" value="ng" class='country'>🇳🇬</button>
+                            <button type="submit" name="country" value="fr" class='country'>🇫🇷</button>
                         </form>
                         
                         {% comment %} country change {% endcomment %}
@@ -121,12 +121,12 @@
                               background-color: #3e8e41;
                             }
                         </style>
-                    <div>
+                    {% comment %} <div>
                         <a href="#" class="cat">Categories</a>
                         <div class="dropdown">
                             <img src="/static/imgs/arrow-up-svgrepo-com.svg" alt="" class="click">
                         </div>
-                    </div>
+                    </div> {% endcomment %}
                     {% comment %} <div><a href="/community">Communities</a>
                         <div class="dropdown">
                             <img src="/static/imgs/arrow-up-svgrepo-com.svg" alt="">
@@ -259,7 +259,7 @@
                     </div>
                     <div class="vertical-bar"></div>
                     <div class="light-mode">
-                        <img src="/static/imgs/sun-svgrepo-com (3).svg" alt="" class="sun">
+                        <img src="{% static "imgs/sun-svgrepo-com (3).svg" %}" alt="" class="sun" id='sun'>
                     </div>
                 </div>
             </div>
@@ -1510,7 +1510,7 @@
             </div>
         </div>
     </div> {% endcomment %}
-<script src="/static/js/project.js"></script>
+<script src="{%static 'js/project.js'%}"></script>
 </body>
 
 </html>

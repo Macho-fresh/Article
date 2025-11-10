@@ -55,20 +55,22 @@
         </div>
     </div>
     <div class="category-post">
-        
+        {% for post in posts %}
         <div class="cover">
-            
-            <div class="category-img" style="background-image: url('{{ article.image_url }}');
+            {% if post.image_url %}
+            <div class="category-img" style="background-image: url('{{ post.image_url }}');
             background-size: cover;
             background-position: center;"></div>
-            <div class="article-highlight3">
-                <div class="health">
-                    <img src="/static/imgs/health-svgrepo-com (1).svg" alt="">
-                    <p>Health</p>
-                </div>
-                <p class="title03">{{article.title}}</p>
-                <p class="title-post">{{article.content|truncatewords:50}}</p>
-                <a href="{% url 'blog' article.id %}" class="title">
+            {% elif post.image_post %}
+            <div class="category-img" style="background-image: url('{{ post.image_post.url }}');
+            background-size: cover;
+            background-position: center;"></div>
+            {% endif %}
+            <div class="post-highlight3">
+               
+                <p class="title03">{{post.title}}</p>
+                <p class="title-post">{{post.content|truncatewords:50}}</p>
+                <a href="{% url 'blog' post.id %}" class="title">
                     <p class="title2">read more</p>
                 </a>
                 <div class="views">
@@ -81,10 +83,17 @@
                         <!-- <img src="/static/imgs/Cromiixx.jpeg" alt=""> -->
 
                     </div>
+                    {% if post.pub_date %}
                     <div class="author2">
-                        <p>BY {{article.author}}, {{article.pub_date}}</p>
+                        <p>BY {{post.author}}, {{post.pub_date}}</p>
 
                     </div>
+                    {% elif post.date %}
+                    <div class="author2">
+                        <p>BY {{post.author}}, {{post.date}}</p>
+
+                    </div>
+                    {% endif %}
                     <div class="bookmark2">
                         <img src="/static/imgs/bookmark-svgrepo-com.svg" alt="">
                     </div>
@@ -93,10 +102,11 @@
             </div>
             
         </div>
+        {% endfor %}
         
 
 
-        <!-- other articles -->
+        <!-- other posts -->
         {% comment %} <div class="cover">
             <div class="category-img"></div>
             <div class="article-highlight3">
@@ -225,6 +235,7 @@
             </div>
         </div> {% endcomment %}
     </div>
+    <script src="{%static 'js/author.js'%}"></script>
 </body>
 
 </html>

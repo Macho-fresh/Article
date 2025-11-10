@@ -53,7 +53,7 @@
 .nav-middle {
     display: flex;
     width: auto;
-    gap: 20px;
+    gap: 50px;
 
 }
 
@@ -616,6 +616,10 @@
     display: flex;
 }
 
+.fetch-btn, .dropbtn, .country{
+    background-color: none;
+    background: none;
+}
 
 .article-highlight3 {
     /* height: 200px; */

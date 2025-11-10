@@ -15,17 +15,17 @@
 
         <div class="category-post">
             {% for t in search_result %}
-            <div class="cover">
-                {% if t.image_url %}
-                <div class="category-img" style="background-image: url('{{ t.image_url }}');
+                <div class="cover">
+                    {% if t.image_url %}
+                    <div class="category-img" style="background-image: url('{{ t.image_url }}');
+                        background-size: cover;
+                        background-position: center;">
+                    </div>
+                    {% elif t.image_post %}
+                    <div class="category-img" style="background-image: url('{{ t.image_post.url }}');
                     background-size: cover;
                     background-position: center;">
                 </div>
-                {% elif t.image_post %}
-                <div class="category-img" style="background-image: url('{{ t.image_post.url }}');
-                background-size: cover;
-                background-position: center;">
-            </div>
                 {% endif %}
 
                 <div class="article-highlight3">
@@ -35,7 +35,7 @@
                     </div> {% endcomment %}
                     <a href="{% url 'blog' t.id %}" class="title">
                         <p class="title">{{t.title}}</p>
-
+                    
                     <a href="{% url 'blog' t.id %}" class="title-post">
                         <p class="title-post">{{t.content|truncatechars:150}}</p>
                     </a>
@@ -72,5 +72,7 @@
             </div>
             {% endfor %}
         </div>
+
+        <script src="{%static 'js/search.js'%}"></script>
 </body>
 </html>

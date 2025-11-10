@@ -33,13 +33,13 @@
                 {% if article.pub_date %}
                         <div class="author">
                             <a href="{% url 'author' article.id %}">
-                            <p>BY {{article.author}} {{article.pub_date}}</p>
+                            <p class='blog_author'>BY {{article.author}} {{article.pub_date}}</p>
                             </a>
                         </div>
                         {% elif t.date %}
                         <div class="author">
                             <a href="{% url 'author' article.id %}">
-                            <p>BY {{article.author}} {{article.date}}</p>
+                            <p class='blog_author'>BY {{article.author}} {{article.date}}</p>
                             </a>
                         </div>
                         {% endif %}
@@ -367,6 +367,8 @@
             </div>
         </div>
     </div>
+    <script src="{%static 'js/blog.js'%}"></script>
+
 </body>
 
 </html>

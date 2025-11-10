@@ -256,15 +256,22 @@ def blog(request, id):
 @login_required(login_url='login')
 def author(request, id):
     try:
+        # Get the article that was clicked
         article = Article.objects.get(id=id)
+        # Get the author of that article
+        author = article.author  
+        # Get all posts by that author
+        posts = Article.objects.filter(author=author).order_by('-id')  # optional ordering
     except Article.DoesNotExist:
         article = None
+        posts = []
 
-    # user = User.objects.filter(username=author).first()
+    return render(request, 'author.html', {
+        'article': article,   # the post that was clicked
+        'posts': posts,       # all posts by this author
+        'author': author if article else None
+    })
 
-    # Get their posts if the user exists
-    # posts = Article.objects.filter(author=user) if user else []
-    return render(request, 'author.html', {'article': article})  
 
 def loginPage(request):
     if request.user.is_authenticated:
