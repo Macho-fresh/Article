@@ -134,13 +134,13 @@
                     </div> {% endcomment %}
 
                     <p>Hello, {{request.user}}</p>
-                    <a href="logout/">Logout</a>
+                    <a href="logout/" class='posts'>Logout</a>
 
                     {% comment %} fetch new articles button {% endcomment %}
                     <form action="{% url 'fetch_new_articles' %}" method="post">
                         {% csrf_token %}
                         <button type="submit" class="fetch-btn">
-                            🔄 Get New Posts
+                           <span class='posts'> 🔄 Get New Posts </span>
                         </button>
                     </form>
 

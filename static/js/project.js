@@ -88,8 +88,10 @@ const article = document.querySelectorAll('.article-highlight');
 const ratings = document.querySelector('.ratings-holder');
 const rate = document.querySelector('.ratings');
 const views = document.querySelectorAll('.views');
-const pop_up_content = document.querySelector('.popup-content')
-const label = document.querySelectorAll('label')
+const pop_up_content = document.querySelector('.popup-content');
+const label = document.querySelectorAll('label');
+const posts = document.querySelectorAll('.posts')
+const drop = document.querySelector('.dropbtn')
 
 sun.addEventListener('click', () => {
   theme = theme === 'light' ? 'dark' : 'light'; // toggle theme
@@ -114,6 +116,12 @@ function applyTheme(theme) {
     article.forEach(a => {
       a.style.borderRight = '1px solid white';
     });
+    posts.forEach(post => {
+      post.style.color='white';
+    })
+
+    drop.style.color='white';
+    
     views.forEach(v => {
       v.style.borderBottom = '1px solid white';
     });
@@ -128,6 +136,11 @@ function applyTheme(theme) {
     weekly.style.backgroundColor = '';
     daily.style.backgroundColor = '';
     dailyRight.style.backgroundColor = '';
+    posts.forEach(post => {
+      post.style.color='';
+    })
+
+    drop.style.color='';
     pop_up_content.style.backgroundColor = '';
     rating.forEach(r => {
       r.style.backgroundColor = '';
