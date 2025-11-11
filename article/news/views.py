@@ -79,7 +79,7 @@ def bookmark(request, id):
         #     messages.success(request, f"Bookmarked: {book.title}")
 
     # Redirect back to home or article page after toggling
-    return redirect('view_bookmarks')
+    return redirect('home')
 
 
 
