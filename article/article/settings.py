@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-sm+n#@q6_voq#h*ke!3s7bdwq0dkdf_a105b_*%98t&t+x28(=
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["feedline.onrender.com", "localhost", "127.0.0.1"]
 
 
 # Application definition
