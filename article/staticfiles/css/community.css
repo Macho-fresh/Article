@@ -1,0 +1,81 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+body {
+    background: radial-gradient(circle at 30% 30%, rgba(120, 70, 255, 0.25), transparent 60%),
+        radial-gradient(circle at 70% 70%, rgba(70, 249, 255, 0.2), transparent 60%),
+        linear-gradient(135deg, #0b0c1a 0%, #1a1f2e 100%);
+        background-size: 200% 200%;     
+    background-attachment: fixed;
+    color: #fff;
+    padding: 30px 30px 30px 30px;
+    height: 100vh;
+}
+
+@keyframes drift {
+    0% {
+        background-position: 30% 30%, 70% 70%, 0 0;
+        
+    }
+
+    50% {
+        background-position: 40% 25%, 60% 75%, 0 0;
+    }
+
+    100% {
+        background-position: 30% 30%, 70% 70%, 0 0;
+    }
+}
+
+body {
+    animation: drift 5s ease-in-out infinite alternate;
+}
+
+.hero {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    padding: 4rem;
+    border-radius: 1rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    height: auto;
+  }
+
+  .left{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .discover{
+    font-size: 3rem;
+  }
+
+  .first-sec{
+    margin: 30px 0 0 0;
+    width: 360px;
+    height: 300px;
+    background-image: url(/static/imgs/61733572-efb1-473a-ac4a-aaa605939172.jpeg);
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    border-radius: 10px;
+  }
+
+  .second-sec{
+    margin: 30px 0 0 0;
+    width: 360px;
+    height: 300px;
+    background-image: url(/static/imgs/76\ Thought-Provoking\ Illustrations\ About\ Modern\ Day\ Issues\ That\ You’ll\ Need\ To\ Look\ Twice\ To\ Understand.jpeg);
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    border-radius: 10px;
+  }
+  
