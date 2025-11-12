@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FEEDLINE 📰</title>
-    <link rel="stylesheet" href="/static/css/project.css">
+    <link rel="stylesheet" href="{% static 'css/project.css' %}">
 </head>
 
 <body>
@@ -25,7 +25,7 @@
 
             <div class="nav-section">
                 <div class="nav-left">
-                    <img src="/static/imgs/logo-fl-svgrepo-com (1).svg" alt="">
+                    <img src='{%static "imgs/logo-fl-svgrepo-com (1).svg"% }' alt="">
                     {% comment %} <p>Fabula</p> {% endcomment %}
                 </div>
                 <div class="nav-middle">
@@ -245,7 +245,7 @@
                 <div class="nav-right">
                     <a href="{% url 'view_bookmarks' %}">
                         <div class="bookmark">
-                            <img src="/static/imgs/bookmark-svgrepo-com.svg" alt="">
+                            <img src='{%static "imgs/bookmark-svgrepo-com.svg" %}' alt="">
                             <div class="bookadd">{{book}}</div>
                         </div>
                     </a>
@@ -255,7 +255,7 @@
                     </form>
                     
                     <div class="search">
-                        <img src="/static/imgs/search-alt-svgrepo-com.svg" alt="" class="searchBtn">
+                        <img src='{% static "imgs/search-alt-svgrepo-com.svg" %}'alt="" class="searchBtn">
                     </div>
                     <div class="vertical-bar"></div>
                     <div class="light-mode">
@@ -300,7 +300,7 @@
                         <form action="{% url 'bookmark' t.id %}" method="post">
                             {% csrf_token %}
                             <button type="submit" style="border:none; background:none;">
-                                <img src="/static/imgs/bookmark-svgrepo-com.svg" alt="Bookmark" class="bookmark2">
+                                <img src='{%static "imgs/bookmark-svgrepo-com.svg" %}' alt="Bookmark" class="bookmark2">
                             </button>
                         </form>
                         
@@ -447,7 +447,7 @@
                             <form action="{% url 'bookmark' t.id %}" method="post">
                                 {% csrf_token %}
                                 <button type="submit" style="border:none; background:none;">
-                                    <img src="/static/imgs/bookmark-svgrepo-com.svg" alt="Bookmark" class="bookmark2">
+                                    <img src='{% static "imgs/bookmark-svgrepo-com.svg" %}' alt="Bookmark" class="bookmark2">
                                 </button>
                             </form>
                             <div class="details">
@@ -460,7 +460,7 @@
                         <button class="arrow2">
                             <a href="{% url 'blog' t.id %}"> Read More</a>
                            
-                            <img src="/static/imgs/arrow-sm-right-svgrepo-com.svg" alt="">
+                            <img src="{% static 'imgs/arrow-sm-right-svgrepo-com.svg' %}" alt="">
                         </button>
                     </div>
                     {% endfor %}
@@ -504,7 +504,7 @@
                             <form action="{% url 'bookmark' t.id %}" method="post">
                                 {% csrf_token %}
                                 <button type="submit" style="border:none; background:none;">
-                                    <img src="/static/imgs/bookmark-svgrepo-com.svg" alt="Bookmark" class="bookmark2">
+                                    <img src='{% static "imgs/bookmark-svgrepo-com.svg" %}' alt="Bookmark" class="bookmark2">
                                 </button>
                             </form>
 
@@ -613,7 +613,7 @@
                             <form action="{% url 'bookmark' t.id %}" method="post">
                                 {% csrf_token %}
                                 <button type="submit" style="border:none; background:none;">
-                                    <img src="/static/imgs/bookmark-svgrepo-com.svg" alt="Bookmark" class="bookmark2">
+                                    <img src='{% static "imgs/bookmark-svgrepo-com.svg" %}' alt="Bookmark" class="bookmark2">
                                 </button>
                             </form>
 
@@ -768,7 +768,7 @@
                             <form action="{% url 'bookmark' t.id %}" method="post">
                                 {% csrf_token %}
                                 <button type="submit" style="border:none; background:none;">
-                                    <img src="/static/imgs/bookmark-svgrepo-com.svg" alt="Bookmark" class="bookmark2">
+                                    <img src='{% static "imgs/bookmark-svgrepo-com.svg" %}' alt="Bookmark" class="bookmark2">
                                 </button>
                             </form>
 
@@ -941,7 +941,7 @@
                 <i class="fas fa-search"></i>
                 <input type="text" placeholder="Enter some key words..." name='search'>
                 <div class="search">
-                    <img src="/static/imgs/search-alt-svgrepo-com.svg" alt="">
+                    <img src='{% static "imgs/search-alt-svgrepo-com.svg" %}' alt="">
                 </div>
             </form> 
 

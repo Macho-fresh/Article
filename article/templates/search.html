@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FEEDLINE 📰</title>
-    <link rel="stylesheet" href="/static/css/search.css">
+    <link rel="stylesheet" href='{% static "css/search.css" %}'>
 </head>
 <body>
     <a href="{% url "home" %}">Go back</a>
@@ -63,7 +63,7 @@
                         <form action="{% url 'bookmark' t.id %}" method="post">
                             {% csrf_token %}
                             <button type="submit" style="border:none; background:none;">
-                                <img src="/static/imgs/bookmark-svgrepo-com.svg" alt="Bookmark" class="bookmark2">
+                                <img src='{% static "imgs/bookmark-svgrepo-com.svg" %}' alt="Bookmark" class="bookmark2">
                             </button>
                         </form>
 
