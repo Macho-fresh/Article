@@ -26,7 +26,7 @@ def search(request):
         if request.method == 'GET':
             search = request.GET.get('search')
             search_result = Article.objects.filter(
-                Q(title__icontains=search) | Q(content__icontains=search)
+                Q(title__icontains=search) | Q(content__icontains=search)| Q(author__username__icontains=search)
             )
             if search_result:
                 
