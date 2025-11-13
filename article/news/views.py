@@ -125,7 +125,8 @@ def home(request):
         Article.objects.create(
             title = post_title,
             content = post_content,
-            image_post = post_image
+            image_post = post_image,
+            author=request.user
         )
 
         return redirect('home')
